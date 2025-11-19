@@ -160,65 +160,56 @@ function Index() {
   }
 
   if (loading) {
-    return <CLoading fullPage text="LOADING..." />
+    return <CLoading fullPage text="加载中..." />
   }
 
   return (
-    <View className="min-h-screen bg-brutal-white pb-32 font-sans relative">
-      {/* Grid Background */}
-      <View className="absolute inset-0 bg-grid pointer-events-none opacity-30" />
-
-      {/* Scanlines */}
-      <View className="absolute inset-0 scanlines pointer-events-none" />
-
-      {/* Header - Neo-Brutal */}
-      <View className="px-6 pt-8 pb-4 slide-in-up">
-        <Text className="text-4xl font-mono-brutal mb-2">{'[ MY_WALLET ]'}</Text>
-        <Text className="text-sm font-mono text-brutal-gray">{'>'} {'>'} {today.format('YYYY.MM.DD // dddd')}</Text>
+    <View className="min-h-screen pb-32 relative">
+      {/* Header - iOS Glass */}
+      <View className="px-6 pt-8 pb-4 animate-fade-slide-up">
+        <Text className="text-3xl font-bold text-gray-900 mb-1">我的账本</Text>
+        <Text className="text-sm text-gray-500">{today.format('YYYY年MM月DD日 dddd')}</Text>
       </View>
 
-      {/* Balance Card - Bold Brutal */}
-      <View className="mx-6 mb-6 slide-in-up stagger-1">
-        <View className="bg-neon-yellow border-brutal p-8 relative overflow-hidden">
-          <View className="absolute top-2 right-2 text-xs font-mono text-brutal-black opacity-30">
-            <Text>█ BALANCE</Text>
-          </View>
-          <Text className="text-sm font-mono-brutal mb-2">CURRENT_BALANCE:</Text>
-          <Text className="text-6xl font-mono-brutal leading-none mb-4 glitch">{formatCurrency(balance)}</Text>
+      {/* Balance Card - iOS Glass Gradient */}
+      <View className="mx-6 mb-6 animate-fade-slide-up delay-100">
+        <View className="gradient-card p-8 rounded-3xl relative overflow-hidden">
+          <Text className="text-sm text-white/80 mb-2">当前余额</Text>
+          <Text className="text-5xl font-bold text-white leading-none mb-6">{formatCurrency(balance)}</Text>
           <View className="flex gap-4">
-            <View className="flex-1">
-              <Text className="text-xs font-mono text-brutal-black opacity-60">↓ OUT</Text>
-              <Text className="text-lg font-mono-brutal text-expense">{formatCurrency(totalExpense)}</Text>
+            <View className="flex-1 glass-card rounded-2xl p-4">
+              <Text className="text-xs text-gray-500 mb-1">支出</Text>
+              <Text className="text-lg font-bold text-expense">{formatCurrency(totalExpense)}</Text>
             </View>
-            <View className="flex-1">
-              <Text className="text-xs font-mono text-brutal-black opacity-60">↑ IN</Text>
-              <Text className="text-lg font-mono-brutal text-income">{formatCurrency(totalIncome)}</Text>
+            <View className="flex-1 glass-card rounded-2xl p-4">
+              <Text className="text-xs text-gray-500 mb-1">收入</Text>
+              <Text className="text-lg font-bold text-income">{formatCurrency(totalIncome)}</Text>
             </View>
           </View>
         </View>
       </View>
 
-      {/* Stats Grid - Asymmetric */}
-      <View className="px-6 mb-8 flex gap-4 slide-in-up stagger-2">
-        <View className="flex-1 bg-brutal-white border-brutal-sm p-5 skew-brutal-reverse transform active-brutal active-brutal-shadow">
-          <Text className="text-xs font-mono mb-2 opacity-60">MONTH_OUT</Text>
-          <Text className="text-2xl font-mono-brutal text-expense mb-1">{formatCurrency(monthStats.monthExpense)}</Text>
-          <Text className="text-xs font-mono">{getMonthTrendText(monthStats.monthExpense, monthStats.lastMonthExpense)}</Text>
+      {/* Stats Grid - Floating Cards */}
+      <View className="px-6 mb-8 grid grid-cols-2 gap-4 animate-fade-slide-up delay-200">
+        <View className="floating-card p-5 rounded-2xl">
+          <Text className="text-xs text-gray-500 mb-2">本月支出</Text>
+          <Text className="text-2xl font-bold text-expense mb-1">{formatCurrency(monthStats.monthExpense)}</Text>
+          <Text className="text-xs text-gray-400">{getMonthTrendText(monthStats.monthExpense, monthStats.lastMonthExpense)}</Text>
         </View>
 
-        <View className="flex-1 bg-brutal-black border-4 border-brutal-black shadow-brutal-green p-5 skew-brutal transform active-brutal active-brutal-shadow">
-          <Text className="text-xs font-mono mb-2 text-neon-green">MONTH_IN</Text>
-          <Text className="text-2xl font-mono-brutal text-neon-green mb-1">{formatCurrency(monthStats.monthIncome)}</Text>
-          <Text className="text-xs font-mono text-brutal-white opacity-70">{getMonthTrendText(monthStats.monthIncome, monthStats.lastMonthIncome)}</Text>
+        <View className="floating-card p-5 rounded-2xl">
+          <Text className="text-xs text-gray-500 mb-2">本月收入</Text>
+          <Text className="text-2xl font-bold text-income mb-1">{formatCurrency(monthStats.monthIncome)}</Text>
+          <Text className="text-xs text-gray-400">{getMonthTrendText(monthStats.monthIncome, monthStats.lastMonthIncome)}</Text>
         </View>
       </View>
 
-      <View className="px-6 mb-8 slide-in-up stagger-3">
-        <View className="bg-brutal-white border-brutal-sm p-5 active-brutal active-brutal-shadow">
-          <Text className="text-xs font-mono mb-2 opacity-60">TODAY_STATS</Text>
-          <Text className="text-3xl font-mono-brutal mb-2">{formatCurrency(todayStats.todayExpense)}</Text>
-          <Text className="text-sm font-mono">
-            {todayStats.todayCount > 0 ? `${todayStats.todayCount} RECORDS // AVG: ${formatCurrency(todayStats.average)}` : 'NO RECORDS TODAY'}
+      <View className="px-6 mb-8 animate-fade-slide-up delay-300">
+        <View className="glass-card p-5 rounded-2xl">
+          <Text className="text-xs text-gray-500 mb-2">今日统计</Text>
+          <Text className="text-3xl font-bold text-gray-900 mb-2">{formatCurrency(todayStats.todayExpense)}</Text>
+          <Text className="text-sm text-gray-600">
+            {todayStats.todayCount > 0 ? `${todayStats.todayCount} 笔记录 · 平均 ${formatCurrency(todayStats.average)}` : '暂无记录'}
           </Text>
         </View>
       </View>
@@ -232,22 +223,22 @@ function Index() {
         onRefresherRefresh={handleRefresh}
       >
         {Object.keys(groupedTransactions).length === 0 ? (
-          <View className="flex flex-col items-center justify-center p-16 mx-6 border-brutal-lg bg-brutal-white slide-in-up stagger-4">
+          <View className="flex flex-col items-center justify-center p-16 mx-6 glass-card rounded-3xl animate-fade-slide-up delay-400">
             <Text className="text-5xl mb-4">📝</Text>
-            <Text className="text-2xl font-mono-brutal mb-2">NO_RECORDS</Text>
-            <Text className="text-sm font-mono text-brutal-gray text-center">
-              Click the button below to add your first transaction
+            <Text className="text-xl font-bold text-gray-900 mb-2">暂无记录</Text>
+            <Text className="text-sm text-gray-500 text-center">
+              点击下方按钮添加第一笔记录
             </Text>
           </View>
         ) : (
           <View className="px-6">
             {Object.entries(groupedTransactions).map(([date, items], index) => (
-              <View key={date} className={`mb-6 slide-in-up stagger-${Math.min(index + 4, 5)}`}>
-                <View className="flex items-center gap-2 mb-2">
-                  <Text className="font-mono-brutal text-lg">{'>'} {'>'} {getDateDisplay(date)}</Text>
-                  <View className="flex-1 h-0.5 bg-brutal-black opacity-20" />
+              <View key={date} className={`mb-6 animate-fade-slide-up delay-${Math.min((index + 4) * 100, 500)}`}>
+                <View className="flex items-center gap-2 mb-3">
+                  <Text className="text-base font-semibold text-gray-900">{getDateDisplay(date)}</Text>
+                  <View className="flex-1 h-px divider-gradient" />
                 </View>
-                <View className="bg-brutal-white border-brutal overflow-hidden">
+                <View>
                   {items.map((transaction) => (
                     <TransactionItem
                       key={transaction.id}
@@ -263,19 +254,21 @@ function Index() {
         )}
       </ScrollView>
 
-      {/* FAB - Brutal Style */}
+      {/* FAB - iOS Glass Floating Button */}
       <View className="fixed left-6 right-6 bottom-8 z-10">
         <View
-          className="bg-neon-yellow border-brutal p-6 flex items-center justify-between active-brutal active-brutal-shadow"
+          className="gradient-card-blue p-6 rounded-2xl flex items-center justify-between active:scale-98 transition-transform shadow-floating"
           onClick={handleAddClick}
         >
           <View className="flex flex-col">
-            <Text className="font-mono-brutal text-xl">ADD_RECORD</Text>
-            <Text className="font-mono text-xs text-brutal-black opacity-60">
-              Today: {todayStats.todayCount} {' records'}
+            <Text className="text-xl font-bold text-white">添加记录</Text>
+            <Text className="text-sm text-white/80">
+              今日 {todayStats.todayCount} 笔
             </Text>
           </View>
-          <Text className="text-4xl font-mono-brutal">+</Text>
+          <View className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center">
+            <Text className="text-3xl text-white font-light">+</Text>
+          </View>
         </View>
       </View>
     </View>

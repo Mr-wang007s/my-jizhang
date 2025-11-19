@@ -33,27 +33,36 @@ const Modal = ({
     : 'items-end justify-end';
 
   return (
-    <View className={`fixed inset-0 z-50 flex ${positionClasses}`}>
+    <View className={`fixed inset-0 z-50 flex ${positionClasses} animate-fade-in`}>
       {/* Overlay */}
       <View
-        className="absolute inset-0 bg-brutal-black/80 backdrop-blur"
+        className="absolute inset-0 bg-black/20 backdrop-blur-sm"
         onClick={handleOverlayClick}
       />
 
       {/* Content */}
-      <View className="relative bg-brutal-white border-brutal-lg m-6 w-full max-w-2xl slide-in-up">
+      <View className={`relative glass-card w-full max-w-2xl animate-slide-up ${
+        position === 'bottom' ? 'rounded-t-3xl' : 'rounded-3xl m-6'
+      }`}>
+        {/* Drag Indicator (for bottom sheets) */}
+        {position === 'bottom' && (
+          <View className="pt-2 pb-4 flex justify-center">
+            <View className="w-10 h-1 bg-gray-300 rounded-full" />
+          </View>
+        )}
+
         {showHeader && (
-          <View className="border-b-4 border-brutal-black p-4 flex items-center justify-between">
+          <View className="px-6 pb-4 flex items-center justify-between border-b border-gray-100">
             {title && (
-              <Text className="font-mono-brutal text-2xl">{title}</Text>
+              <Text className="text-xl font-bold text-gray-900">{title}</Text>
             )}
             {onClose && (
-              <Text
-                className="text-3xl font-mono-brutal cursor-pointer active-brutal"
+              <View
+                className="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center active:scale-95 transition-transform"
                 onClick={onClose}
               >
-                ×
-              </Text>
+                <Text className="text-xl text-gray-500">×</Text>
+              </View>
             )}
           </View>
         )}

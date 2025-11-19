@@ -8,9 +8,9 @@ interface CategoryIconProps {
 }
 
 const sizeClasses = {
-  small: 'w-12 h-12 text-2xl',
-  medium: 'w-16 h-16 text-3xl',
-  large: 'w-20 h-20 text-4xl',
+  small: 'w-12 h-12 text-2xl rounded-xl',
+  medium: 'w-16 h-16 text-3xl rounded-2xl',
+  large: 'w-20 h-20 text-4xl rounded-2xl',
 };
 
 const CategoryIcon = ({
@@ -21,15 +21,15 @@ const CategoryIcon = ({
 }: CategoryIconProps) => {
   const sizeClass = sizeClasses[size];
   const activeClasses = active
-    ? 'border-brutal-neon glow-yellow'
-    : 'border-brutal-sm bg-brutal-white';
+    ? 'bg-gradient-to-br from-blue-500 to-blue-600 shadow-lg scale-105'
+    : 'bg-gradient-to-br from-gray-50 to-gray-100';
 
   return (
     <View
-      className={`${sizeClass} ${activeClasses} flex items-center justify-center active-brutal active-brutal-shadow`}
+      className={`${sizeClass} ${activeClasses} flex items-center justify-center transition-all active:scale-95`}
       onClick={onClick}
     >
-      <Text>{icon}</Text>
+      <Text className={active ? 'animate-bounce-subtle' : ''}>{icon}</Text>
     </View>
   );
 };

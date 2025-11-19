@@ -142,37 +142,33 @@ function AddTransaction() {
   const currentDayDisplay = dayjs(date).format('YYYY.MM.DD // dddd')
 
   return (
-    <View className="min-h-screen bg-brutal-white p-6 pb-32 flex flex-col gap-6 relative">
-      {/* Grid Background */}
-      <View className="absolute inset-0 bg-grid pointer-events-none opacity-20" />
-
+    <View className="min-h-screen p-6 pb-32 flex flex-col gap-6">
       {/* Header */}
-      <View className="slide-in-up">
-        <Text className="text-4xl font-mono-brutal mb-2">
-          {isEdit ? '[ EDIT ]' : '[ NEW_RECORD ]'}
+      <View className="animate-fade-slide-up">
+        <Text className="text-3xl font-bold text-gray-900 mb-1">
+          {isEdit ? '编辑记录' : '新增记录'}
         </Text>
-        <Text className="text-sm font-mono text-brutal-gray">
-          {'>'} {'>'} {currentDayDisplay}
+        <Text className="text-sm text-gray-500">
+          {currentDayDisplay}
         </Text>
       </View>
 
       {/* Type Toggle */}
-      <View className="flex justify-between items-center slide-in-up stagger-1">
-        <Text className="font-mono-brutal text-lg">TYPE:</Text>
+      <View className="flex justify-center animate-fade-slide-up delay-100">
         <TypeToggle value={type} onChange={handleTypeChange} />
       </View>
 
-      {/* Amount Input - Bold Brutal */}
-      <View className="border-brutal-neon bg-neon-yellow p-8 slide-in-up stagger-2">
-        <Text className="text-xs font-mono-brutal mb-4">INPUT_AMOUNT:</Text>
+      {/* Amount Input - iOS Glass Card */}
+      <View className="gradient-card rounded-3xl p-8 animate-fade-slide-up delay-200">
+        <Text className="text-sm text-white/80 mb-4">输入金额</Text>
         <View className="flex items-center">
-          <Text className="text-8xl font-mono-brutal mr-2">¥</Text>
+          <Text className="text-7xl font-bold text-white mr-2">¥</Text>
           <Input
-            className="text-8xl font-mono-brutal w-full border-none outline-none bg-transparent"
-            style={{ caretColor: '#000' }}
+            className="text-7xl font-bold text-white w-full border-none outline-none bg-transparent"
+            style={{ caretColor: '#fff' }}
             type="digit"
             placeholder="0.00"
-            placeholderStyle="color: rgba(0, 0, 0, 0.3); font-size: 80px;"
+            placeholderStyle="color: rgba(255, 255, 255, 0.5); font-size: 72px;"
             value={amount}
             onInput={handleAmountChange}
             focus
@@ -181,11 +177,9 @@ function AddTransaction() {
       </View>
 
       {/* Category Selection */}
-      <View className="border-brutal bg-brutal-white slide-in-up stagger-3">
-        <View className="border-b-4 border-brutal-black p-4">
-          <Text className="font-mono-brutal text-lg">{'>'} CATEGORY</Text>
-        </View>
-        <View className="p-6 grid grid-cols-4 gap-4">
+      <View className="glass-card rounded-3xl p-6 animate-fade-slide-up delay-300">
+        <Text className="text-base font-semibold text-gray-900 mb-4">选择分类</Text>
+        <View className="grid grid-cols-4 gap-4 mb-4">
           {featuredCategories.map((cat: ICategory) => (
             <View
               key={cat.id}
@@ -197,70 +191,64 @@ function AddTransaction() {
                 size="large"
                 active={category?.id === cat.id}
               />
-              <Text className={`text-xs font-mono text-center ${category?.id === cat.id ? 'font-mono-brutal' : ''}`}>
+              <Text className={`text-xs text-center ${category?.id === cat.id ? 'font-semibold text-gray-900' : 'text-gray-500'}`}>
                 {cat.name}
               </Text>
             </View>
           ))}
         </View>
-        <View className="border-t-4 border-brutal-black p-4">
+        <View className="border-t border-gray-100 pt-4">
           <View
-            className="border-brutal-sm bg-brutal-white p-4 text-center active-brutal active-brutal-shadow"
+            className="glass-bg rounded-xl p-3 text-center active:scale-98 transition-transform"
             onClick={() => setShowCategoryPicker(true)}
           >
-            <Text className="font-mono-brutal">VIEW_ALL</Text>
+            <Text className="text-sm font-medium text-ios-blue">查看全部</Text>
           </View>
         </View>
       </View>
 
       {/* Date Selection */}
-      <View className="border-brutal bg-brutal-white slide-in-up stagger-4">
-        <View className="border-b-4 border-brutal-black p-4">
-          <Text className="font-mono-brutal text-lg">{'>'} DATE</Text>
-        </View>
-        <View className="p-6 grid grid-cols-4 gap-4">
+      <View className="glass-card rounded-3xl p-6 animate-fade-slide-up delay-400">
+        <Text className="text-base font-semibold text-gray-900 mb-4">选择日期</Text>
+        <View className="grid grid-cols-4 gap-3">
           {QUICK_DATE_OPTIONS.map((option) => {
             const isActive = dayjs(date).isSame(dayjs().add(option.offset, 'day'), 'day')
             return (
               <View
                 key={option.label}
-                className={`p-4 text-center border-brutal-sm ${isActive ? 'bg-neon-yellow' : 'bg-brutal-white'} active-brutal active-brutal-shadow`}
+                className={`p-3 rounded-xl text-center transition-all ${isActive ? 'bg-ios-blue shadow-sm' : 'bg-gray-50'}`}
                 onClick={() => handleQuickDateSelect(option.offset)}
               >
-                <Text className="font-mono-brutal">{option.label}</Text>
+                <Text className={`text-sm font-semibold ${isActive ? 'text-white' : 'text-gray-700'}`}>{option.label}</Text>
               </View>
             )
           })}
           <View
-            className="p-4 text-center border-brutal-sm bg-brutal-white active-brutal active-brutal-shadow"
+            className="p-3 rounded-xl text-center bg-gray-50 active:scale-95 transition-transform"
             onClick={() => setShowDatePicker(true)}
           >
-            <Text className="font-mono-brutal">...</Text>
+            <Text className="text-sm font-semibold text-gray-700">更多</Text>
           </View>
         </View>
       </View>
 
       {/* Note Input */}
-      <View className="border-brutal bg-brutal-white slide-in-up stagger-5">
-        <View className="border-b-4 border-brutal-black p-4">
-          <Text className="font-mono-brutal text-lg">{'>'} NOTE</Text>
-        </View>
-        <View className="p-4">
-          <Input
-            className="font-mono text-base w-full border-none outline-none bg-transparent p-2"
-            placeholder="Add note (optional)..."
-            placeholderStyle="color: #808080;"
-            value={note}
-            onInput={(e) => setNote(e.detail.value)}
-          />
-        </View>
+      <View className="glass-card rounded-3xl p-6 animate-fade-slide-up delay-500">
+        <Text className="text-base font-semibold text-gray-900 mb-3">备注</Text>
+        <Input
+          className="text-base w-full border-none outline-none bg-transparent text-gray-900"
+          placeholder="添加备注（可选）"
+          placeholderStyle="color: #9CA3AF;"
+          value={note}
+          onInput={(e) => setNote(e.detail.value)}
+        />
       </View>
 
       {/* Category Picker Modal */}
       <Modal
         visible={showCategoryPicker}
         onClose={() => setShowCategoryPicker(false)}
-        title="SELECT_CATEGORY"
+        title="选择分类"
         position="bottom"
       >
         <View className="grid grid-cols-4 gap-6 max-h-96 overflow-y-auto">
@@ -278,7 +266,7 @@ function AddTransaction() {
                 size="large"
                 active={category?.id === cat.id}
               />
-              <Text className={`text-xs font-mono text-center ${category?.id === cat.id ? 'font-mono-brutal' : ''}`}>
+              <Text className={`text-xs text-center ${category?.id === cat.id ? 'font-semibold text-gray-900' : 'text-gray-500'}`}>
                 {cat.name}
               </Text>
             </View>
@@ -290,36 +278,36 @@ function AddTransaction() {
       <Modal
         visible={showDatePicker}
         onClose={() => setShowDatePicker(false)}
-        title="SELECT_DATE"
+        title="选择日期"
         position="bottom"
       >
-        <View className="flex gap-4">
+        <View className="grid grid-cols-3 gap-4">
           <View
-            className="flex-1 p-6 border-brutal-sm bg-brutal-white text-center active-brutal active-brutal-shadow"
+            className="glass-card rounded-2xl p-6 text-center active:scale-95 transition-transform"
             onClick={() => {
               setDate(formatDate(new Date()))
               setShowDatePicker(false)
             }}
           >
-            <Text className="font-mono-brutal">TODAY</Text>
+            <Text className="text-base font-semibold text-gray-900">今天</Text>
           </View>
           <View
-            className="flex-1 p-6 border-brutal-sm bg-brutal-white text-center active-brutal active-brutal-shadow"
+            className="glass-card rounded-2xl p-6 text-center active:scale-95 transition-transform"
             onClick={() => {
               setDate(formatDate(dayjs().subtract(1, 'day').toDate()))
               setShowDatePicker(false)
             }}
           >
-            <Text className="font-mono-brutal">YESTERDAY</Text>
+            <Text className="text-base font-semibold text-gray-900">昨天</Text>
           </View>
           <View
-            className="flex-1 p-6 border-brutal-sm bg-brutal-white text-center active-brutal active-brutal-shadow"
+            className="glass-card rounded-2xl p-6 text-center active:scale-95 transition-transform"
             onClick={() => {
               setDate(formatDate(dayjs().subtract(2, 'day').toDate()))
               setShowDatePicker(false)
             }}
           >
-            <Text className="font-mono-brutal">2_DAYS_AGO</Text>
+            <Text className="text-base font-semibold text-gray-900">前天</Text>
           </View>
         </View>
       </Modal>
@@ -327,11 +315,11 @@ function AddTransaction() {
       {/* Save Button */}
       <View className="fixed left-6 right-6 bottom-8 z-10">
         <View
-          className="bg-neon-yellow border-brutal p-6 text-center active-brutal active-brutal-shadow"
+          className="gradient-card-blue rounded-2xl p-5 text-center active:scale-98 transition-transform shadow-floating"
           onClick={handleSave}
         >
-          <Text className="font-mono-brutal text-2xl">
-            {isEdit ? '[ SAVE_CHANGES ]' : '[ SAVE_RECORD ]'}
+          <Text className="text-xl font-bold text-white">
+            {isEdit ? '保存修改' : '保存记录'}
           </Text>
         </View>
       </View>

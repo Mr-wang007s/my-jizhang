@@ -11,18 +11,16 @@ const CLoading: FC<Props> = ({ fullPage = false, hide = false, text = 'LOADING..
   if (hide) return null;
 
   const containerClass = fullPage
-    ? 'fixed inset-0 bg-brutal-black/90 flex items-center justify-center z-50'
+    ? 'fixed inset-0 bg-black/20 backdrop-blur-sm flex items-center justify-center z-50'
     : 'flex items-center justify-center p-8';
 
   return (
     <View className={containerClass}>
       <View className="flex flex-col items-center gap-4">
-        {/* Brutal Loading Animation */}
-        <View className="relative w-20 h-20 border-brutal-neon bg-neon-yellow">
-          <View className="absolute inset-2 bg-brutal-black animate-blink"></View>
-        </View>
+        {/* iOS Spinner */}
+        <View className="w-12 h-12 border-4 border-gray-200 border-t-ios-blue rounded-full animate-spin"></View>
         {text && (
-          <Text className="font-mono-brutal text-lg text-brutal-white glitch">{text}</Text>
+          <Text className="text-base font-medium text-gray-600">{text}</Text>
         )}
       </View>
     </View>
