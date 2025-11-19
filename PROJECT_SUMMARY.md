@@ -4,7 +4,7 @@
 
 ### 1. 项目初始化 ✓
 - ✅ 使用 Taro 4.1.8 (最新版本) 初始化项目
-- ✅ 配置 React + TypeScript + Sass
+- ✅ 配置 React + TypeScript + tailwindcss
 - ✅ 使用 Vite 作为构建工具
 - ✅ 安装所有必要的依赖
 
