@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useMemo } from 'react'
 import { View, Text, ScrollView } from '@tarojs/components'
 import { useDispatch, useSelector } from 'react-redux'
 import Taro from '@tarojs/taro'
@@ -106,27 +106,100 @@ function Index() {
   const totalExpense = calculateTotal(transactions, TransactionType.EXPENSE)
   const balance = calculateBalance(transactions)
 
+  const today = dayjs()
+  const todayKey = today.format('YYYY-MM-DD')
+  const currentMonthKey = today.format('YYYY-MM')
+  const lastMonthKey = today.subtract(1, 'month').format('YYYY-MM')
+
+  const monthStats = useMemo(() => {
+    const currentMonthTransactions = transactions.filter((t: ITransaction) =>
+      dayjs(t.date).format('YYYY-MM') === currentMonthKey
+    )
+    const lastMonthTransactions = transactions.filter((t: ITransaction) =>
+      dayjs(t.date).format('YYYY-MM') === lastMonthKey
+    )
+
+    const sumByType = (list: ITransaction[], type: TransactionType) =>
+      list
+        .filter((t) => t.type === type)
+        .reduce((sum, t) => sum + t.amount, 0)
+
+    const monthExpense = sumByType(currentMonthTransactions, TransactionType.EXPENSE)
+    const monthIncome = sumByType(currentMonthTransactions, TransactionType.INCOME)
+    const lastMonthExpense = sumByType(lastMonthTransactions, TransactionType.EXPENSE)
+    const lastMonthIncome = sumByType(lastMonthTransactions, TransactionType.INCOME)
+
+    return {
+      monthExpense,
+      monthIncome,
+      lastMonthExpense,
+      lastMonthIncome,
+    }
+  }, [transactions, currentMonthKey, lastMonthKey])
+
+  const todayStats = useMemo(() => {
+    const todayTransactions = transactions.filter((t: ITransaction) =>
+      dayjs(t.date).format('YYYY-MM-DD') === todayKey
+    )
+    const todayExpense = todayTransactions
+      .filter((t) => t.type === TransactionType.EXPENSE)
+      .reduce((sum, t) => sum + t.amount, 0)
+    const todayCount = todayTransactions.length
+
+    return {
+      todayExpense,
+      todayCount,
+      average: todayCount ? todayExpense / todayCount : 0,
+    }
+  }, [transactions, todayKey])
+
+  const getMonthTrendText = (current: number, previous: number) => {
+    if (!previous) return '暂无对比'
+    const diff = current - previous
+    const direction = diff >= 0 ? '多' : '少'
+    return `较上月${direction}${formatCurrency(Math.abs(diff))}`
+  }
+
   if (loading) {
     return <CLoading fullPage text="加载中..." />
   }
 
   return (
     <View className="index-page">
-      {/* Summary Card */}
-      <View className="summary-card">
-        <View className="summary-item">
-          <Text className="summary-label">总支出</Text>
-          <Text className="summary-value expense">{formatCurrency(totalExpense)}</Text>
+      {/* Overview Section */}
+      <View className="overview-section">
+        <View className="balance-card">
+          <View>
+            <Text className="balance-label">当前结余</Text>
+            <Text className="balance-value">{formatCurrency(balance)}</Text>
+          </View>
+          <View className="balance-tags">
+            <Text className="balance-tag expense">总支出 {formatCurrency(totalExpense)}</Text>
+            <Text className="balance-tag income">总收入 {formatCurrency(totalIncome)}</Text>
+          </View>
+          <Text className="balance-date">{today.format('MM月DD日 dddd')}</Text>
         </View>
-        <View className="summary-divider"></View>
-        <View className="summary-item">
-          <Text className="summary-label">总收入</Text>
-          <Text className="summary-value income">{formatCurrency(totalIncome)}</Text>
-        </View>
-        <View className="summary-divider"></View>
-        <View className="summary-item">
-          <Text className="summary-label">结余</Text>
-          <Text className="summary-value balance">{formatCurrency(balance)}</Text>
+
+        <View className="metric-grid">
+          <View className="metric-card expense">
+            <Text className="metric-label">本月支出</Text>
+            <Text className="metric-value">{formatCurrency(monthStats.monthExpense)}</Text>
+            <Text className="metric-trend">{getMonthTrendText(monthStats.monthExpense, monthStats.lastMonthExpense)}</Text>
+          </View>
+          <View className="metric-card income">
+            <Text className="metric-label">本月收入</Text>
+            <Text className="metric-value">{formatCurrency(monthStats.monthIncome)}</Text>
+            <Text className="metric-trend">{getMonthTrendText(monthStats.monthIncome, monthStats.lastMonthIncome)}</Text>
+          </View>
+          <View className="metric-card neutral">
+            <Text className="metric-label">今日支出</Text>
+            <Text className="metric-value">{formatCurrency(todayStats.todayExpense)}</Text>
+            <Text className="metric-trend">
+              {todayStats.todayCount
+                ? `${todayStats.todayCount} 笔 · 平均 ${formatCurrency(todayStats.average)}`
+                : '今天还没有记账'}
+            </Text>
+          </View>
         </View>
       </View>
 
@@ -165,9 +238,16 @@ function Index() {
         )}
       </ScrollView>
 
-      {/* Add Button */}
-      <View className="add-button" onClick={handleAddClick}>
-        <Text className="add-icon">+</Text>
+      <View className="action-bar">
+        <View className="action-info">
+          <Text className="action-title">随时记录每一笔</Text>
+          <Text className="action-subtitle">
+            今日 {todayStats.todayCount} 笔 · {formatCurrency(todayStats.todayExpense)}
+          </Text>
+        </View>
+        <View className="action-button" onClick={handleAddClick}>
+          <Text className="action-text">+ 记一笔</Text>
+        </View>
       </View>
     </View>
   )

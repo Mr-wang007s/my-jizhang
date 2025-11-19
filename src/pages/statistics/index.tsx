@@ -10,12 +10,25 @@ import dayjs from 'dayjs'
 import './index.scss'
 
 type PeriodType = 'week' | 'month' | 'year'
+type TrendRange = 7 | 15 | 30
+
+interface ITrendPoint {
+  date: string
+  amount: number
+}
+
+const TREND_RANGE_OPTIONS: { label: string; value: TrendRange }[] = [
+  { label: '7天', value: 7 },
+  { label: '15天', value: 15 },
+  { label: '30天', value: 30 },
+]
 
 function Statistics() {
   const transactions = useSelector((state: any) => state.transaction.list)
   const categories = useSelector((state: any) => state.category.list)
   const [period, setPeriod] = useState<PeriodType>('month')
   const [selectedType, setSelectedType] = useState<TransactionType>(TransactionType.EXPENSE)
+  const [trendRange, setTrendRange] = useState<TrendRange>(7)
 
   // Filter transactions by period
   const filteredTransactions = useMemo(() => {
@@ -80,6 +93,63 @@ function Statistics() {
     return filteredTransactions.reduce((sum: number, t: ITransaction) => sum + t.amount, 0)
   }, [filteredTransactions])
 
+  const trendData: ITrendPoint[] = useMemo(() => {
+    const endDate = dayjs().endOf('day')
+    const startDate = endDate.subtract(trendRange - 1, 'day').startOf('day')
+
+    const points: ITrendPoint[] = new Array(trendRange).fill(null).map((_, index) => {
+      const date = startDate.add(index, 'day')
+      return {
+        date: date.format('YYYY-MM-DD'),
+        amount: 0,
+      }
+    })
+
+    const pointMap = points.reduce((map, point) => {
+      map.set(point.date, point)
+      return map
+    }, new Map<string, ITrendPoint>())
+
+    transactions.forEach((transaction: ITransaction) => {
+      if (transaction.type !== selectedType) return
+      const transactionDate = dayjs(transaction.date)
+      if (transactionDate.isBefore(startDate) || transactionDate.isAfter(endDate)) return
+      const key = transactionDate.format('YYYY-MM-DD')
+      const target = pointMap.get(key)
+      if (target) {
+        target.amount += transaction.amount
+      }
+    })
+
+    return points
+  }, [transactions, selectedType, trendRange])
+
+  const trendMaxAmount = useMemo(() => {
+    return trendData.reduce((max, point) => (point.amount > max ? point.amount : max), 0)
+  }, [trendData])
+
+  const trendSummary = useMemo(() => {
+    if (trendData.length === 0) {
+      return {
+        total: 0,
+        average: 0,
+        peak: { date: '', amount: 0 },
+        rangeText: '--',
+      }
+    }
+
+    const total = trendData.reduce((sum, point) => sum + point.amount, 0)
+    const peak = trendData.reduce((prev, point) => (point.amount > prev.amount ? point : prev), trendData[0])
+    const rangeText = `${dayjs(trendData[0].date).format('MM/DD')} - ${dayjs(trendData[trendData.length - 1].date).format('MM/DD')}`
+
+    return {
+      total,
+      average: trendData.length ? total / trendData.length : 0,
+      peak,
+      rangeText,
+    }
+  }, [trendData])
+
   const getPeriodText = () => {
     switch (period) {
       case 'week':
@@ -130,6 +200,70 @@ function Statistics() {
           {formatCurrency(totalAmount)}
         </Text>
         <Text className="summary-count">共 {filteredTransactions.length} 笔</Text>
+      </View>
+
+      {/* Trend Section */}
+      <View className="trend-section">
+        <View className="trend-header">
+          <View className="trend-title-wrap">
+            <Text className="trend-title">{selectedType === TransactionType.EXPENSE ? '消费趋势' : '收入趋势'}</Text>
+            <Text className="trend-subtitle">{trendSummary.rangeText}</Text>
+          </View>
+          <View className="trend-range">
+            {TREND_RANGE_OPTIONS.map((option) => (
+              <View
+                key={option.value}
+                className={`trend-range-item ${trendRange === option.value ? 'active' : ''}`}
+                onClick={() => setTrendRange(option.value)}
+              >
+                <Text>{option.label}</Text>
+              </View>
+            ))}
+          </View>
+        </View>
+
+        <View className="trend-metrics">
+          <View className="trend-metric">
+            <Text className="metric-label">总额</Text>
+            <Text className={`metric-value ${selectedType}`}>
+              {formatCurrency(trendSummary.total)}
+            </Text>
+          </View>
+          <View className="trend-metric">
+            <Text className="metric-label">日均</Text>
+            <Text className="metric-value">
+              {formatCurrency(trendSummary.average)}
+            </Text>
+          </View>
+          <View className="trend-metric">
+            <Text className="metric-label">峰值日</Text>
+            <Text className="metric-value">
+              {trendSummary.peak.amount > 0 ? dayjs(trendSummary.peak.date).format('MM/DD') : '--'}
+            </Text>
+          </View>
+        </View>
+
+        <ScrollView className="trend-chart" scrollX enableFlex>
+          <View className="trend-columns">
+            {trendData.map((point) => {
+              const height = trendMaxAmount > 0 ? (point.amount / trendMaxAmount) * 100 : 0
+              return (
+                <View key={point.date} className="trend-column">
+                  <View className="trend-bar-wrapper">
+                    <View
+                      className={`trend-bar ${selectedType}`}
+                      style={{ height: `${Math.max(height, 5)}%` }}
+                    />
+                  </View>
+                  <Text className="trend-amount">
+                    {point.amount === 0 ? '-' : formatCurrency(point.amount)}
+                  </Text>
+                  <Text className="trend-date">{dayjs(point.date).format('MM/DD')}</Text>
+                </View>
+              )
+            })}
+          </View>
+        </ScrollView>
       </View>
 
       {/* Category Statistics */}

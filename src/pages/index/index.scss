@@ -2,86 +2,118 @@
 
 .index-page {
   min-height: 100vh;
-  background: linear-gradient(to bottom, rgba(10, 132, 255, 0.05) 0%, $background-color 400px);
-  padding-bottom: 120px;
+  background: linear-gradient(to bottom, rgba(10, 132, 255, 0.05) 0%, $background-color 420px);
+  padding-bottom: 140px;
 }
 
-.summary-card {
-  background: linear-gradient(135deg, #007AFF 0%, #0055D4 100%);
-  border-radius: $radius-xl;
+.overview-section {
   margin: $spacing-lg;
-  padding: $spacing-xl $spacing-lg;
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  position: relative;
-  overflow: hidden;
-  box-shadow: $shadow-lg, 0 20px 40px rgba(0, 122, 255, 0.25);
-  color: #fff;
-  min-height: 120px;
-
-  &::before {
-    content: '';
-    position: absolute;
-    top: -50%;
-    right: -10%;
-    width: 300px;
-    height: 300px;
-    background: radial-gradient(circle, rgba(255,255,255,0.15) 0%, transparent 70%);
-    pointer-events: none;
-  }
-
-  &::after {
-    content: '';
-    position: absolute;
-    bottom: -20px;
-    left: -20px;
-    width: 120px;
-    height: 120px;
-    background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
-    border-radius: 50%;
-  }
-}
-
-.summary-item {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  flex: 1;
-  position: relative;
-  z-index: 1;
+  gap: $spacing-lg;
 }
 
-.summary-label {
+.balance-card {
+  background: linear-gradient(135deg, #0a7afe 0%, #2a5fe7 100%);
+  border-radius: $radius-xxl;
+  padding: $spacing-xl;
+  box-shadow: $shadow-lg, 0 20px 40px rgba(0, 122, 255, 0.25);
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-md;
+}
+
+.balance-label {
+  font-size: $font-base;
+  opacity: 0.8;
+  letter-spacing: 1px;
+}
+
+.balance-value {
+  font-size: $font-display-md;
+  font-weight: 300;
+  letter-spacing: -1px;
+}
+
+.balance-tags {
+  display: flex;
+  gap: $spacing-md;
+  flex-wrap: wrap;
+}
+
+.balance-tag {
+  padding: $spacing-xs $spacing-md;
+  border-radius: $radius-lg;
   font-size: $font-sm;
-  color: rgba(255, 255, 255, 0.7);
-  margin-bottom: $spacing-xs;
-  font-weight: 500;
+  background: rgba(255, 255, 255, 0.15);
+  display: inline-flex;
+  gap: $spacing-xs;
+  align-items: center;
+
+  &.expense {
+    color: rgba(255, 255, 255, 0.9);
+  }
+
+  &.income {
+    color: rgba(255, 255, 255, 0.9);
+  }
+}
+
+.balance-date {
+  font-size: $font-sm;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.metric-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: $spacing-md;
+}
+
+.metric-card {
+  background: $card-background-solid;
+  border-radius: $radius-xl;
+  padding: $spacing-lg;
+  box-shadow: $shadow-md;
+  border: 1px solid rgba(0, 0, 0, 0.04);
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-sm;
+
+  &.expense {
+    border-top: 4px solid $color-expense;
+  }
+
+  &.income {
+    border-top: 4px solid $color-income;
+  }
+
+  &.neutral {
+    border-top: 4px solid $color-neutral;
+  }
+}
+
+.metric-label {
+  font-size: $font-sm;
+  color: $text-secondary;
   letter-spacing: 0.5px;
 }
 
-.summary-value {
+.metric-value {
   font-size: $font-xl;
   font-weight: 600;
-  color: #fff;
-  text-shadow: 0 2px 8px rgba(0,0,0,0.15);
-  letter-spacing: -0.5px;
-
-  &.balance {
-    font-size: $font-xxl;
-    font-weight: 300;
-  }
+  color: $text-primary;
 }
 
-.summary-divider {
-  width: 1px;
-  height: 40px;
-  background: rgba(255, 255, 255, 0.2);
+.metric-trend {
+  font-size: $font-sm;
+  color: $text-secondary;
 }
 
 .transaction-list {
   flex: 1;
-  padding-bottom: $spacing-md;
+  padding-bottom: 200px;
 }
 
 .transaction-group {
@@ -153,36 +185,59 @@
   font-weight: 400;
 }
 
-.add-button {
+.action-bar {
   position: fixed;
+  left: $spacing-lg;
   right: $spacing-lg;
-  bottom: 40px; // Lower it a bit
-  width: 64px;
-  height: 64px;
-  border-radius: 50%;
-  background: $primary-color;
-  box-shadow: 0 8px 20px rgba(0, 122, 255, 0.4);
+  bottom: $spacing-xl;
+  background: $card-background-solid;
+  border-radius: $radius-xxl;
+  box-shadow: $shadow-lg;
+  padding: $spacing-md $spacing-lg;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: $spacing-md;
+  border: 1px solid rgba(0, 0, 0, 0.04);
+}
+
+.action-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.action-title {
+  font-size: $font-lg;
+  font-weight: 600;
+  color: $text-primary;
+}
+
+.action-subtitle {
+  font-size: $font-sm;
+  color: $text-secondary;
+}
+
+.action-button {
+  background: $primary-gradient;
+  padding: 0 $spacing-xl;
+  height: $button-height-lg;
+  border-radius: $radius-xl;
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: $z-index-fixed;
-  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1); // Bouncy spring
+  color: #fff;
+  font-size: $font-lg;
+  font-weight: 600;
+  box-shadow: $shadow-colored;
+  transition: transform $duration-fast $easing-spring;
 
   &:active {
-    transform: scale(0.9);
-    box-shadow: 0 4px 12px rgba(0, 122, 255, 0.3);
-  }
-
-  &:hover {
-    transform: translateY(-4px) scale(1.05);
-    box-shadow: 0 12px 30px rgba(0, 122, 255, 0.5);
+    transform: scale(0.97);
   }
 }
 
-.add-icon {
-  font-size: 36px;
-  color: #fff;
-  font-weight: 400;
-  margin-top: -4px; // Visual center adjustment
+.action-text {
+  color: inherit;
 }
 

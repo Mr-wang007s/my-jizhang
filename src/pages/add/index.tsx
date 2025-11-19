@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 import { View, Text, Input } from '@tarojs/components'
 import { useDispatch, useSelector } from 'react-redux'
 import Taro, { useRouter } from '@tarojs/taro'
@@ -14,6 +14,12 @@ import FormItem from '../../components/FormItem'
 import CategoryIcon from '../../components/CategoryIcon'
 import dayjs from 'dayjs'
 import './index.scss'
+
+const QUICK_DATE_OPTIONS = [
+  { label: '今天', offset: 0 },
+  { label: '昨天', offset: -1 },
+  { label: '前天', offset: -2 },
+]
 
 function AddTransaction() {
   const router = useRouter()
@@ -52,6 +58,8 @@ function AddTransaction() {
   const filteredCategories = categories.filter(
     (cat: ICategory) => cat.type === type
   )
+
+  const featuredCategories = useMemo(() => filteredCategories.slice(0, 4), [filteredCategories])
 
   useEffect(() => {
     // Reset category when type changes
@@ -129,49 +137,131 @@ function AddTransaction() {
     }
   }
 
+  const handleQuickDateSelect = (offset: number) => {
+    const target = dayjs().add(offset, 'day')
+    setDate(formatDate(target.toDate()))
+  }
+
+  const currentDayDisplay = dayjs(date).format('YYYY年MM月DD日 dddd')
+
   return (
     <View className="add-page">
-      {/* Type Selector */}
-      <TypeToggle
-        value={type}
-        onChange={handleTypeChange}
-      />
-
-      {/* Amount Input */}
-      <View className="amount-section">
-        <Text className="currency-symbol">¥</Text>
-        <Input
-          className="amount-input"
-          type="digit"
-          placeholder="0.00"
-          value={amount}
-          onInput={handleAmountChange}
-          focus
-        />
+      <View className="hero-card">
+        <View className="hero-header">
+          <View>
+            <Text className="hero-title">{isEdit ? '编辑账单' : '快速记一笔'}</Text>
+            <Text className="hero-subtitle">{currentDayDisplay}</Text>
+          </View>
+          <View className="hero-toggle">
+            <TypeToggle
+              value={type}
+              onChange={handleTypeChange}
+            />
+          </View>
+        </View>
+        <View className="hero-amount">
+          <Text className="currency-symbol">¥</Text>
+          <Input
+            className="amount-input"
+            type="digit"
+            placeholder="0.00"
+            value={amount}
+            onInput={handleAmountChange}
+            focus
+          />
+        </View>
+        <View className="hero-meta">
+          <View className="meta-block" onClick={() => setShowCategoryPicker(true)}>
+            <Text className="meta-label">分类</Text>
+            <View className="meta-value">
+              {category ? (
+                <>
+                  <CategoryIcon icon={category.icon} size="small" />
+                  <Text className="meta-text">{category.name}</Text>
+                </>
+              ) : (
+                <Text className="meta-placeholder">请选择</Text>
+              )}
+            </View>
+          </View>
+          <View className="meta-divider" />
+          <View className="meta-block" onClick={() => setShowDatePicker(true)}>
+            <Text className="meta-label">日期</Text>
+            <Text className="meta-text">{formatDate(date, 'MM月DD日')}</Text>
+          </View>
+        </View>
       </View>
 
-      {/* Form Fields */}
-      <View className="form-section">
-        <FormItem
-          label="分类"
-          value={category?.name}
-          placeholder="请选择分类"
-          icon={category ? <CategoryIcon icon={category.icon} size="small" /> : null}
-          onClick={() => setShowCategoryPicker(true)}
-        />
-        <FormItem
-          label="日期"
-          value={formatDate(date, 'YYYY年MM月DD日')}
-          onClick={() => setShowDatePicker(true)}
-        />
-        <FormItem
-          label="备注"
-          value={note}
-          placeholder="添加备注（可选）"
-          type="input"
-          onInput={setNote}
-          showArrow={false}
-        />
+      <View className="section-card">
+        <View className="section-header">
+          <Text className="section-title">详细信息</Text>
+          <Text className="section-desc">补全分类、日期与备注</Text>
+        </View>
+        <View className="form-stack">
+          <FormItem
+            label="分类"
+            value={category?.name}
+            placeholder="请选择分类"
+            icon={category ? <CategoryIcon icon={category.icon} size="small" /> : null}
+            onClick={() => setShowCategoryPicker(true)}
+          />
+          <FormItem
+            label="日期"
+            value={formatDate(date, 'YYYY年MM月DD日')}
+            onClick={() => setShowDatePicker(true)}
+          />
+          <FormItem
+            label="备注"
+            value={note}
+            placeholder="添加备注（可选）"
+            type="input"
+            onInput={setNote}
+            showArrow={false}
+            align="left"
+          />
+        </View>
+      </View>
+
+      {featuredCategories.length > 0 && (
+        <View className="section-card compact">
+          <View className="section-header">
+            <Text className="section-title">常用分类</Text>
+            <Text className="section-desc">轻点快速选择</Text>
+          </View>
+          <View className="quick-category-row">
+            {featuredCategories.map((cat: ICategory) => (
+              <View
+                key={cat.id}
+                className={`quick-category ${category?.id === cat.id ? 'active' : ''}`}
+                onClick={() => setCategory(cat)}
+              >
+                <CategoryIcon icon={cat.icon} size="medium" active={category?.id === cat.id} />
+                <Text className="quick-category-name">{cat.name}</Text>
+              </View>
+            ))}
+          </View>
+        </View>
+      )}
+
+      <View className="section-card compact">
+        <View className="section-header">
+          <Text className="section-title">日期快捷键</Text>
+          <Text className="section-desc">常用记账场景</Text>
+        </View>
+        <View className="quick-date-row">
+          {QUICK_DATE_OPTIONS.map((option) => (
+            <View
+              key={option.label}
+              className={`quick-date-item ${dayjs(date).isSame(dayjs().add(option.offset, 'day'), 'day') ? 'active' : ''}`}
+              onClick={() => handleQuickDateSelect(option.offset)}
+            >
+              <Text>{option.label}</Text>
+            </View>
+          ))}
+          <View className="quick-date-item outline" onClick={() => setShowDatePicker(true)}>
+            <Text>更多日期</Text>
+          </View>
+        </View>
       </View>
 
       {/* Category Picker */}
