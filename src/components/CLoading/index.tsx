@@ -1,7 +1,5 @@
-import { View } from '@tarojs/components'
+import { View, Text } from '@tarojs/components'
 import { FC, memo } from 'react'
-import classnames from 'classnames'
-import './index.scss'
 
 interface Props {
   fullPage?: boolean
@@ -9,17 +7,24 @@ interface Props {
   text?: string
 }
 
-const CLoading: FC<Props> = ({ fullPage = false, hide = false, text = '加载中...' }) => {
-  const cls = classnames({
-    'loading-component': true,
-    'loading-fullscreen': fullPage,
-    'loading-hide': hide,
-  })
+const CLoading: FC<Props> = ({ fullPage = false, hide = false, text = 'LOADING...' }) => {
+  if (hide) return null;
+
+  const containerClass = fullPage
+    ? 'fixed inset-0 bg-brutal-black/90 flex items-center justify-center z-50'
+    : 'flex items-center justify-center p-8';
 
   return (
-    <View className={cls}>
-      <View className="loading-spinner"></View>
-      {text && <View className="loading-text">{text}</View>}
+    <View className={containerClass}>
+      <View className="flex flex-col items-center gap-4">
+        {/* Brutal Loading Animation */}
+        <View className="relative w-20 h-20 border-brutal-neon bg-neon-yellow">
+          <View className="absolute inset-2 bg-brutal-black animate-blink"></View>
+        </View>
+        {text && (
+          <Text className="font-mono-brutal text-lg text-brutal-white glitch">{text}</Text>
+        )}
+      </View>
     </View>
   )
 }

@@ -5,8 +5,6 @@ import { ITransaction } from '../../constants/commonType'
 import { TransactionType } from '../../constants/transaction'
 import { formatCurrency } from '../../utils/calculation'
 import { formatTime } from '../../utils/date'
-import classnames from 'classnames'
-import './index.scss'
 
 interface Props {
   transaction: ITransaction
@@ -25,10 +23,6 @@ const TransactionItem: FC<Props> = ({ transaction, onClick, onDelete }) => {
   }
 
   const isExpense = transaction.type === TransactionType.EXPENSE
-  const amountClass = classnames('transaction-amount', {
-    'transaction-amount-expense': isExpense,
-    'transaction-amount-income': !isExpense,
-  })
 
   const renderRight = () => (
     <Button
@@ -43,21 +37,29 @@ const TransactionItem: FC<Props> = ({ transaction, onClick, onDelete }) => {
 
   return (
     <Swipe rightAction={renderRight()}>
-      <View className="transaction-item" onClick={handleClick}>
-        <View className="transaction-left">
-          <View className="transaction-icon">{transaction.categoryIcon}</View>
-          <View className="transaction-info">
-            <Text className="transaction-category">{transaction.categoryName}</Text>
-            {transaction.note && (
-              <Text className="transaction-note">{transaction.note}</Text>
-            )}
-          </View>
+      <View
+        className="border-b-4 border-brutal-black p-4 active-brutal bg-brutal-white flex items-center gap-4"
+        onClick={handleClick}
+      >
+        {/* Icon */}
+        <View className="w-16 h-16 border-brutal-sm bg-neon-yellow flex items-center justify-center flex-shrink-0">
+          <Text className="text-3xl">{transaction.categoryIcon}</Text>
         </View>
-        <View className="transaction-right">
-          <Text className={amountClass}>
+
+        {/* Info */}
+        <View className="flex-1 flex flex-col gap-1">
+          <Text className="font-mono-brutal text-base">{transaction.categoryName}</Text>
+          {transaction.note && (
+            <Text className="font-mono text-xs text-brutal-gray">{transaction.note}</Text>
+          )}
+        </View>
+
+        {/* Amount */}
+        <View className="flex flex-col items-end gap-1">
+          <Text className={`text-2xl font-mono-brutal ${isExpense ? 'text-expense' : 'text-income'}`}>
             {isExpense ? '-' : '+'}{formatCurrency(transaction.amount, false)}
           </Text>
-          <Text className="transaction-time">{formatTime(transaction.date)}</Text>
+          <Text className="font-mono text-xs text-brutal-gray">{formatTime(transaction.date)}</Text>
         </View>
       </View>
     </Swipe>

@@ -1,6 +1,5 @@
-import { View } from '@tarojs/components';
+import { View, Text } from '@tarojs/components';
 import { ReactNode } from 'react';
-import './index.scss';
 
 interface ModalProps {
   visible: boolean;
@@ -29,21 +28,36 @@ const Modal = ({
     }
   };
 
+  const positionClasses = position === 'center'
+    ? 'items-center justify-center'
+    : 'items-end justify-end';
+
   return (
-    <View className="modal-container">
-      <View className="modal-overlay" onClick={handleOverlayClick} />
-      <View className={`modal-content modal-${position}`}>
+    <View className={`fixed inset-0 z-50 flex ${positionClasses}`}>
+      {/* Overlay */}
+      <View
+        className="absolute inset-0 bg-brutal-black/80 backdrop-blur"
+        onClick={handleOverlayClick}
+      />
+
+      {/* Content */}
+      <View className="relative bg-brutal-white border-brutal-lg m-6 w-full max-w-2xl slide-in-up">
         {showHeader && (
-          <View className="modal-header">
-            {title && <View className="modal-title">{title}</View>}
+          <View className="border-b-4 border-brutal-black p-4 flex items-center justify-between">
+            {title && (
+              <Text className="font-mono-brutal text-2xl">{title}</Text>
+            )}
             {onClose && (
-              <View className="modal-close" onClick={onClose}>
+              <Text
+                className="text-3xl font-mono-brutal cursor-pointer active-brutal"
+                onClick={onClose}
+              >
                 ×
-              </View>
+              </Text>
             )}
           </View>
         )}
-        <View className="modal-body">{children}</View>
+        <View className="p-6">{children}</View>
       </View>
     </View>
   );

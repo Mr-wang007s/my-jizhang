@@ -155,97 +155,127 @@ function Index() {
   const getMonthTrendText = (current: number, previous: number) => {
     if (!previous) return '暂无对比'
     const diff = current - previous
-    const direction = diff >= 0 ? '多' : '少'
-    return `较上月${direction}${formatCurrency(Math.abs(diff))}`
+    const direction = diff >= 0 ? '↑' : '↓'
+    return `${direction} ${formatCurrency(Math.abs(diff))}`
   }
 
   if (loading) {
-    return <CLoading fullPage text="加载中..." />
+    return <CLoading fullPage text="LOADING..." />
   }
 
   return (
-    <View className="min-h-screen bg-gradient-fade pb-[140px]">
-      {/* Overview Section */}
-      <View className="m-lg flex flex-col gap-lg">
-        <View className="gradient-primary rounded-xxl p-xl shadow-lg text-white flex flex-col gap-md" style={{ boxShadow: '0 16px 32px rgba(0, 0, 0, 0.12), 0 20px 40px rgba(0, 122, 255, 0.25)' }}>
-          <View>
-            <Text className="text-base opacity-80 tracking-wide">当前结余</Text>
-            <Text className="text-4xl font-light" style={{ letterSpacing: '-1px' }}>{formatCurrency(balance)}</Text>
+    <View className="min-h-screen bg-brutal-white pb-32 font-sans relative">
+      {/* Grid Background */}
+      <View className="absolute inset-0 bg-grid pointer-events-none opacity-30" />
+
+      {/* Scanlines */}
+      <View className="absolute inset-0 scanlines pointer-events-none" />
+
+      {/* Header - Neo-Brutal */}
+      <View className="px-6 pt-8 pb-4 slide-in-up">
+        <Text className="text-4xl font-mono-brutal mb-2">{'[ MY_WALLET ]'}</Text>
+        <Text className="text-sm font-mono text-brutal-gray">{'>'} {'>'} {today.format('YYYY.MM.DD // dddd')}</Text>
+      </View>
+
+      {/* Balance Card - Bold Brutal */}
+      <View className="mx-6 mb-6 slide-in-up stagger-1">
+        <View className="bg-neon-yellow border-brutal p-8 relative overflow-hidden">
+          <View className="absolute top-2 right-2 text-xs font-mono text-brutal-black opacity-30">
+            <Text>█ BALANCE</Text>
           </View>
-          <View className="flex gap-md flex-wrap">
-            <Text className="px-md py-xs rounded-lg text-sm inline-flex gap-xs items-center" style={{ background: 'rgba(255, 255, 255, 0.15)' }}>总支出 {formatCurrency(totalExpense)}</Text>
-            <Text className="px-md py-xs rounded-lg text-sm inline-flex gap-xs items-center" style={{ background: 'rgba(255, 255, 255, 0.15)' }}>总收入 {formatCurrency(totalIncome)}</Text>
+          <Text className="text-sm font-mono-brutal mb-2">CURRENT_BALANCE:</Text>
+          <Text className="text-6xl font-mono-brutal leading-none mb-4 glitch">{formatCurrency(balance)}</Text>
+          <View className="flex gap-4">
+            <View className="flex-1">
+              <Text className="text-xs font-mono text-brutal-black opacity-60">↓ OUT</Text>
+              <Text className="text-lg font-mono-brutal text-expense">{formatCurrency(totalExpense)}</Text>
+            </View>
+            <View className="flex-1">
+              <Text className="text-xs font-mono text-brutal-black opacity-60">↑ IN</Text>
+              <Text className="text-lg font-mono-brutal text-income">{formatCurrency(totalIncome)}</Text>
+            </View>
           </View>
-          <Text className="text-sm" style={{ color: 'rgba(255, 255, 255, 0.8)' }}>{today.format('MM月DD日 dddd')}</Text>
+        </View>
+      </View>
+
+      {/* Stats Grid - Asymmetric */}
+      <View className="px-6 mb-8 flex gap-4 slide-in-up stagger-2">
+        <View className="flex-1 bg-brutal-white border-brutal-sm p-5 skew-brutal-reverse transform active-brutal active-brutal-shadow">
+          <Text className="text-xs font-mono mb-2 opacity-60">MONTH_OUT</Text>
+          <Text className="text-2xl font-mono-brutal text-expense mb-1">{formatCurrency(monthStats.monthExpense)}</Text>
+          <Text className="text-xs font-mono">{getMonthTrendText(monthStats.monthExpense, monthStats.lastMonthExpense)}</Text>
         </View>
 
-        <View className="grid gap-md" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))' }}>
-          <View className="bg-card-solid rounded-xl p-lg shadow-md flex flex-col gap-sm" style={{ border: '1px solid rgba(0, 0, 0, 0.04)', borderTop: '4px solid #FF3B30' }}>
-            <Text className="text-sm text-text-secondary" style={{ letterSpacing: '0.5px' }}>本月支出</Text>
-            <Text className="text-xl font-semibold text-text-primary">{formatCurrency(monthStats.monthExpense)}</Text>
-            <Text className="text-sm text-text-secondary">{getMonthTrendText(monthStats.monthExpense, monthStats.lastMonthExpense)}</Text>
-          </View>
-          <View className="bg-card-solid rounded-xl p-lg shadow-md flex flex-col gap-sm" style={{ border: '1px solid rgba(0, 0, 0, 0.04)', borderTop: '4px solid #34C759' }}>
-            <Text className="text-sm text-text-secondary" style={{ letterSpacing: '0.5px' }}>本月收入</Text>
-            <Text className="text-xl font-semibold text-text-primary">{formatCurrency(monthStats.monthIncome)}</Text>
-            <Text className="text-sm text-text-secondary">{getMonthTrendText(monthStats.monthIncome, monthStats.lastMonthIncome)}</Text>
-          </View>
-          <View className="bg-card-solid rounded-xl p-lg shadow-md flex flex-col gap-sm" style={{ border: '1px solid rgba(0, 0, 0, 0.04)', borderTop: '4px solid #8E8E93' }}>
-            <Text className="text-sm text-text-secondary" style={{ letterSpacing: '0.5px' }}>今日支出</Text>
-            <Text className="text-xl font-semibold text-text-primary">{formatCurrency(todayStats.todayExpense)}</Text>
-            <Text className="text-sm text-text-secondary">
-              {todayStats.todayCount
-                ? `${todayStats.todayCount} 笔 · 平均 ${formatCurrency(todayStats.average)}`
-                : '今天还没有记账'}
-            </Text>
-          </View>
+        <View className="flex-1 bg-brutal-black border-4 border-brutal-black shadow-brutal-green p-5 skew-brutal transform active-brutal active-brutal-shadow">
+          <Text className="text-xs font-mono mb-2 text-neon-green">MONTH_IN</Text>
+          <Text className="text-2xl font-mono-brutal text-neon-green mb-1">{formatCurrency(monthStats.monthIncome)}</Text>
+          <Text className="text-xs font-mono text-brutal-white opacity-70">{getMonthTrendText(monthStats.monthIncome, monthStats.lastMonthIncome)}</Text>
+        </View>
+      </View>
+
+      <View className="px-6 mb-8 slide-in-up stagger-3">
+        <View className="bg-brutal-white border-brutal-sm p-5 active-brutal active-brutal-shadow">
+          <Text className="text-xs font-mono mb-2 opacity-60">TODAY_STATS</Text>
+          <Text className="text-3xl font-mono-brutal mb-2">{formatCurrency(todayStats.todayExpense)}</Text>
+          <Text className="text-sm font-mono">
+            {todayStats.todayCount > 0 ? `${todayStats.todayCount} RECORDS // AVG: ${formatCurrency(todayStats.average)}` : 'NO RECORDS TODAY'}
+          </Text>
         </View>
       </View>
 
       {/* Transaction List */}
       <ScrollView
-        className="flex-1 pb-[200px]"
+        className="flex-1"
         scrollY
         refresherEnabled
         refresherTriggered={refreshing}
         onRefresherRefresh={handleRefresh}
       >
         {Object.keys(groupedTransactions).length === 0 ? (
-          <View className="flex flex-col items-center justify-center p-[120px_16px] m-lg rounded-xl backdrop-blur-glass" style={{ background: 'rgba(255, 255, 255, 0.8)', WebkitBackdropFilter: 'blur(20px)', border: '1px solid rgba(0, 0, 0, 0.04)' }}>
-            <Text className="text-2xl text-text-secondary mb-md font-light">暂无记录</Text>
-            <Text className="text-base text-text-tertiary">点击下方按钮开始记账</Text>
+          <View className="flex flex-col items-center justify-center p-16 mx-6 border-brutal-lg bg-brutal-white slide-in-up stagger-4">
+            <Text className="text-5xl mb-4">📝</Text>
+            <Text className="text-2xl font-mono-brutal mb-2">NO_RECORDS</Text>
+            <Text className="text-sm font-mono text-brutal-gray text-center">
+              Click the button below to add your first transaction
+            </Text>
           </View>
         ) : (
-          Object.entries(groupedTransactions).map(([date, items]) => (
-            <View key={date} className="mb-lg">
-              <View className="p-[12px_24px] flex items-baseline justify-between">
-                <Text className="text-lg font-bold text-text-primary">{getDateDisplay(date)}</Text>
-                <Text className="text-sm text-text-secondary font-medium">{formatDate(date, 'YYYY年MM月DD日')}</Text>
+          <View className="px-6">
+            {Object.entries(groupedTransactions).map(([date, items], index) => (
+              <View key={date} className={`mb-6 slide-in-up stagger-${Math.min(index + 4, 5)}`}>
+                <View className="flex items-center gap-2 mb-2">
+                  <Text className="font-mono-brutal text-lg">{'>'} {'>'} {getDateDisplay(date)}</Text>
+                  <View className="flex-1 h-0.5 bg-brutal-black opacity-20" />
+                </View>
+                <View className="bg-brutal-white border-brutal overflow-hidden">
+                  {items.map((transaction) => (
+                    <TransactionItem
+                      key={transaction.id}
+                      transaction={transaction}
+                      onClick={handleItemClick}
+                      onDelete={handleDelete}
+                    />
+                  ))}
+                </View>
               </View>
-              <View className="bg-card-solid mx-lg rounded-xl shadow-sm" style={{ border: '1px solid rgba(0, 0, 0, 0.04)' }}>
-                {items.map((transaction) => (
-                  <TransactionItem
-                    key={transaction.id}
-                    transaction={transaction}
-                    onClick={handleItemClick}
-                    onDelete={handleDelete}
-                  />
-                ))}
-              </View>
-            </View>
-          ))
+            ))}
+          </View>
         )}
       </ScrollView>
 
-      <View className="fixed left-lg right-lg bottom-xl bg-card-solid rounded-xxl shadow-lg p-[16px_24px] flex items-center justify-between gap-md z-fixed" style={{ border: '1px solid rgba(0, 0, 0, 0.04)' }}>
-        <View className="flex flex-col gap-[4px]">
-          <Text className="text-lg font-semibold text-text-primary">随时记录每一笔</Text>
-          <Text className="text-sm text-text-secondary">
-            今日 {todayStats.todayCount} 笔 · {formatCurrency(todayStats.todayExpense)}
-          </Text>
-        </View>
-        <View className="gradient-primary px-xl h-button-lg rounded-xl flex items-center justify-center text-white text-lg font-semibold shadow-colored transition-transform duration-fast active:scale-[0.97]" onClick={handleAddClick} style={{ transitionTimingFunction: 'cubic-bezier(0.34, 1.56, 0.64, 1)' }}>
-          <Text className="text-white">+ 记一笔</Text>
+      {/* FAB - Brutal Style */}
+      <View className="fixed left-6 right-6 bottom-8 z-10">
+        <View
+          className="bg-neon-yellow border-brutal p-6 flex items-center justify-between active-brutal active-brutal-shadow"
+          onClick={handleAddClick}
+        >
+          <View className="flex flex-col">
+            <Text className="font-mono-brutal text-xl">ADD_RECORD</Text>
+            <Text className="font-mono text-xs text-brutal-black opacity-60">
+              Today: {todayStats.todayCount} {' records'}
+            </Text>
+          </View>
+          <Text className="text-4xl font-mono-brutal">+</Text>
         </View>
       </View>
     </View>

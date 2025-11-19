@@ -1,6 +1,5 @@
 import { View, Text, Input } from '@tarojs/components';
 import { ReactNode } from 'react';
-import './index.scss';
 
 interface FormItemProps {
   label: string;
@@ -26,26 +25,29 @@ const FormItem = ({
   align = 'right'
 }: FormItemProps) => {
   return (
-    <View className="form-item" onClick={type === 'text' ? onClick : undefined}>
-      <View className="form-item-label">
-        {icon && <View className="form-item-icon">{icon}</View>}
-        <Text className="form-item-label-text">{label}</Text>
+    <View
+      className="border-b-4 border-brutal-black p-4 flex items-center justify-between active-brutal bg-brutal-white"
+      onClick={type === 'text' ? onClick : undefined}
+    >
+      <View className="flex items-center gap-2">
+        {icon && <View className="flex items-center">{icon}</View>}
+        <Text className="font-mono-brutal text-base">{label}</Text>
       </View>
-      <View className="form-item-value">
+      <View className="flex items-center gap-2">
         {type === 'input' ? (
           <Input
-            className={`form-item-input align-${align}`}
+            className={`font-mono text-base border-none outline-none bg-transparent text-${align}`}
             value={value?.toString() || ''}
             placeholder={placeholder}
             onInput={(e) => onInput?.(e.detail.value)}
           />
         ) : (
-          <Text className={`form-item-value-text ${!value ? 'placeholder' : ''}`}>
+          <Text className={`font-mono text-base ${!value ? 'text-brutal-gray' : 'text-brutal-black'}`}>
             {value || placeholder}
           </Text>
         )}
         {showArrow && type === 'text' && (
-          <Text className="form-item-arrow">›</Text>
+          <Text className="font-mono-brutal text-2xl">{'>'}›</Text>
         )}
       </View>
     </View>
