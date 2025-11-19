@@ -2,92 +2,103 @@
 
 .statistics-page {
   min-height: 100vh;
-  background: $background-color;
+  background: linear-gradient(to bottom, rgba(0, 122, 255, 0.04) 0%, $background-color 350px);
   padding-bottom: 100px;
 }
 
 .period-selector {
   display: flex;
-  background: $card-background;
-  margin: $spacing-md;
-  border-radius: $radius-md;
-  overflow: hidden;
-  box-shadow: $shadow-sm;
+  gap: $spacing-sm;
+  margin: $spacing-lg;
+  background: transparent;
 }
 
 .period-item {
   flex: 1;
-  padding: $spacing-md;
+  padding: $spacing-md $spacing-lg;
   text-align: center;
-  font-size: $font-md;
+  font-size: $font-base;
   color: $text-secondary;
-  transition: all 0.3s;
-
-  &.active {
-    color: $primary-color;
-    background: rgba(0, 122, 255, 0.1);
-    font-weight: 600;
-  }
-}
-
-.type-selector {
-  display: flex;
-  background: $card-background;
-  margin: 0 $spacing-md $spacing-md;
-  border-radius: $radius-md;
-  overflow: hidden;
+  background: $card-background-solid;
+  border-radius: $radius-lg;
+  border: 2px solid transparent;
+  transition: all $duration-fast $easing-standard;
+  font-weight: 500;
   box-shadow: $shadow-sm;
-}
-
-.type-item {
-  flex: 1;
-  padding: $spacing-sm;
-  text-align: center;
-  font-size: $font-sm;
-  color: $text-secondary;
-  transition: all 0.3s;
+  min-height: $button-height-md;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
 
   &.active {
     color: $primary-color;
+    background: rgba(0, 122, 255, 0.08);
+    border-color: rgba(0, 122, 255, 0.3);
     font-weight: 600;
+    box-shadow: 0 4px 12px rgba(0, 122, 255, 0.15);
+  }
+
+  &:active {
+    transform: scale(0.96);
   }
 }
+
+
 
 .summary-card {
-  background: linear-gradient(135deg, $primary-color 0%, #5AC8FA 100%);
-  margin: 0 $spacing-md $spacing-md;
+  background: linear-gradient(135deg, #007AFF 0%, #0055D4 100%);
+  margin: 0 $spacing-lg $spacing-xl;
   padding: $spacing-xl;
-  border-radius: $radius-lg;
-  box-shadow: $shadow-md;
+  border-radius: $radius-xl;
   display: flex;
   flex-direction: column;
   align-items: center;
+  position: relative;
+  overflow: hidden;
+  box-shadow: $shadow-lg, 0 20px 40px rgba(0, 122, 255, 0.25);
+  min-height: 160px;
+  justify-content: center;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -10%;
+    width: 300px;
+    height: 300px;
+    background: radial-gradient(circle, rgba(255,255,255,0.15) 0%, transparent 70%);
+    pointer-events: none;
+  }
 }
 
 .summary-label {
-  font-size: $font-sm;
-  color: rgba(255, 255, 255, 0.8);
-  margin-bottom: $spacing-sm;
+  font-size: $font-base;
+  color: rgba(255, 255, 255, 0.85);
+  margin-bottom: $spacing-md;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  position: relative;
+  z-index: 1;
 }
 
 .summary-amount {
-  font-size: 48px;
+  font-size: $font-display-lg;
   font-weight: 200;
   color: #fff;
-  margin-bottom: $spacing-xs;
-
-  &.expense {
-    color: #FFE5E5;
-  }
-
-  &.income {
-    color: #D4EDDA;
-  }
+  margin-bottom: $spacing-sm;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  letter-spacing: -1px;
+  position: relative;
+  z-index: 1;
 }
 
 .summary-count {
-  font-size: $font-sm;
-  color: rgba(255, 255, 255, 0.8);
+  font-size: $font-base;
+  color: rgba(255, 255, 255, 0.75);
+  font-weight: 400;
+  position: relative;
+  z-index: 1;
 }
 
 .stats-list {
@@ -96,15 +107,23 @@
 
 .stat-item {
   position: relative;
-  background: $card-background;
-  margin: 0 $spacing-md $spacing-sm;
-  padding: $spacing-md;
-  border-radius: $radius-md;
-  box-shadow: $shadow-sm;
+  background: $card-background-solid;
+  margin: 0 $spacing-lg $spacing-md;
+  padding: $spacing-lg;
+  border-radius: $radius-xl;
   display: flex;
   align-items: center;
   justify-content: space-between;
   overflow: hidden;
+  transition: all $duration-fast $easing-standard;
+  box-shadow: $shadow-sm;
+  border: 1px solid rgba(0, 0, 0, 0.04);
+  min-height: 80px;
+
+  &:active {
+    transform: scale(0.98);
+    box-shadow: $shadow-md;
+  }
 }
 
 .stat-left {
@@ -114,32 +133,25 @@
   z-index: 1;
 }
 
-.stat-icon {
-  width: 44px;
-  height: 44px;
-  border-radius: $radius-md;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 24px;
-  margin-right: $spacing-sm;
-}
+
 
 .stat-info {
   display: flex;
   flex-direction: column;
+  gap: 4px;
+  margin-left: $spacing-sm;
 }
 
 .stat-name {
-  font-size: $font-md;
+  font-size: $font-lg;
   color: $text-primary;
-  font-weight: 500;
-  margin-bottom: 4px;
+  font-weight: 600;
 }
 
 .stat-count {
-  font-size: $font-xs;
+  font-size: $font-sm;
   color: $text-secondary;
+  font-weight: 400;
 }
 
 .stat-right {
@@ -150,22 +162,24 @@
 }
 
 .stat-amount {
-  font-size: $font-lg;
+  font-size: $font-xl;
   font-weight: 600;
   margin-bottom: 4px;
+  letter-spacing: -0.5px;
 
   &.expense {
-    color: $danger-color;
+    color: $color-expense;
   }
 
   &.income {
-    color: $success-color;
+    color: $color-income;
   }
 }
 
 .stat-percentage {
-  font-size: $font-xs;
-  color: $text-tertiary;
+  font-size: $font-base;
+  color: $text-secondary;
+  font-weight: 500;
 }
 
 .stat-bar-bg {
@@ -175,29 +189,39 @@
   bottom: 0;
   right: 0;
   background: transparent;
+  z-index: 0;
 }
 
 .stat-bar {
   height: 100%;
-  transition: width 0.3s;
+  transition: width 0.6s $easing-smooth;
+  border-radius: 0 $radius-lg $radius-lg 0;
 
   &.expense {
-    background: rgba(255, 59, 48, 0.1);
+    background: linear-gradient(90deg, rgba(255, 59, 48, 0.08) 0%, rgba(255, 59, 48, 0.02) 100%);
   }
 
   &.income {
-    background: rgba(52, 199, 89, 0.1);
+    background: linear-gradient(90deg, rgba(52, 199, 89, 0.08) 0%, rgba(52, 199, 89, 0.02) 100%);
   }
 }
 
 .empty-state {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 100px $spacing-md;
+  padding: 120px $spacing-lg;
+  margin: 0 $spacing-lg;
+  background: $card-background;
+  border-radius: $radius-xl;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(0, 0, 0, 0.04);
 }
 
 .empty-text {
-  font-size: $font-lg;
+  font-size: $font-xxl;
   color: $text-secondary;
+  font-weight: 300;
 }

@@ -4,6 +4,8 @@ import { useSelector } from 'react-redux'
 import { ITransaction, ICategoryStats } from '../../constants/commonType'
 import { TransactionType } from '../../constants/transaction'
 import { formatCurrency } from '../../utils/calculation'
+import TypeToggle from '../../components/TypeToggle'
+import CategoryIcon from '../../components/CategoryIcon'
 import dayjs from 'dayjs'
 import './index.scss'
 
@@ -116,20 +118,10 @@ function Statistics() {
       </View>
 
       {/* Type Selector */}
-      <View className="type-selector">
-        <View
-          className={`type-item ${selectedType === TransactionType.EXPENSE ? 'active' : ''}`}
-          onClick={() => setSelectedType(TransactionType.EXPENSE)}
-        >
-          <Text>支出</Text>
-        </View>
-        <View
-          className={`type-item ${selectedType === TransactionType.INCOME ? 'active' : ''}`}
-          onClick={() => setSelectedType(TransactionType.INCOME)}
-        >
-          <Text>收入</Text>
-        </View>
-      </View>
+      <TypeToggle
+        value={selectedType as 'expense' | 'income'}
+        onChange={(value) => setSelectedType(value as TransactionType)}
+      />
 
       {/* Summary Card */}
       <View className="summary-card">
@@ -150,12 +142,7 @@ function Statistics() {
           categoryStats.map((stat) => (
             <View key={stat.categoryId} className="stat-item">
               <View className="stat-left">
-                <View
-                  className="stat-icon"
-                  style={{ backgroundColor: stat.categoryColor }}
-                >
-                  {stat.categoryIcon}
-                </View>
+                <CategoryIcon icon={stat.categoryIcon} size="medium" />
                 <View className="stat-info">
                   <Text className="stat-name">{stat.categoryName}</Text>
                   <Text className="stat-count">{stat.count} 笔</Text>

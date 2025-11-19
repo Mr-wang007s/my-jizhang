@@ -2,12 +2,16 @@ import { useState, useEffect } from 'react'
 import { View, Text, Input } from '@tarojs/components'
 import { useDispatch, useSelector } from 'react-redux'
 import Taro, { useRouter } from '@tarojs/taro'
-import { Button, Picker } from '@nutui/nutui-react-taro'
+import { Button } from '@nutui/nutui-react-taro'
 import { addTransaction, updateTransaction } from '../../actions/transaction'
 import { ITransaction, ICategory } from '../../constants/commonType'
 import { TransactionType } from '../../constants/transaction'
 import { generateId } from '../../utils/common'
 import { formatDate } from '../../utils/date'
+import TypeToggle from '../../components/TypeToggle'
+import Modal from '../../components/Modal'
+import FormItem from '../../components/FormItem'
+import CategoryIcon from '../../components/CategoryIcon'
 import dayjs from 'dayjs'
 import './index.scss'
 
@@ -128,20 +132,10 @@ function AddTransaction() {
   return (
     <View className="add-page">
       {/* Type Selector */}
-      <View className="type-selector">
-        <View
-          className={`type-item ${type === TransactionType.EXPENSE ? 'active expense' : ''}`}
-          onClick={() => handleTypeChange(TransactionType.EXPENSE)}
-        >
-          <Text>支出</Text>
-        </View>
-        <View
-          className={`type-item ${type === TransactionType.INCOME ? 'active income' : ''}`}
-          onClick={() => handleTypeChange(TransactionType.INCOME)}
-        >
-          <Text>收入</Text>
-        </View>
-      </View>
+      <TypeToggle
+        value={type}
+        onChange={handleTypeChange}
+      />
 
       {/* Amount Input */}
       <View className="amount-section">
@@ -158,107 +152,93 @@ function AddTransaction() {
 
       {/* Form Fields */}
       <View className="form-section">
-        {/* Category */}
-        <View className="form-item" onClick={() => setShowCategoryPicker(true)}>
-          <Text className="form-label">分类</Text>
-          <View className="form-value">
-            {category ? (
-              <View className="category-display">
-                <Text className="category-icon">{category.icon}</Text>
-                <Text>{category.name}</Text>
-              </View>
-            ) : (
-              <Text className="placeholder">请选择分类</Text>
-            )}
-            <Text className="arrow">›</Text>
-          </View>
-        </View>
-
-        {/* Date */}
-        <View className="form-item" onClick={() => setShowDatePicker(true)}>
-          <Text className="form-label">日期</Text>
-          <View className="form-value">
-            <Text>{formatDate(date, 'YYYY年MM月DD日')}</Text>
-            <Text className="arrow">›</Text>
-          </View>
-        </View>
-
-        {/* Note */}
-        <View className="form-item note-item">
-          <Text className="form-label">备注</Text>
-          <Input
-            className="note-input"
-            placeholder="添加备注（可选）"
-            value={note}
-            onInput={(e) => setNote(e.detail.value)}
-          />
-        </View>
+        <FormItem
+          label="分类"
+          value={category?.name}
+          placeholder="请选择分类"
+          icon={category ? <CategoryIcon icon={category.icon} size="small" /> : null}
+          onClick={() => setShowCategoryPicker(true)}
+        />
+        <FormItem
+          label="日期"
+          value={formatDate(date, 'YYYY年MM月DD日')}
+          onClick={() => setShowDatePicker(true)}
+        />
+        <FormItem
+          label="备注"
+          value={note}
+          placeholder="添加备注（可选）"
+          type="input"
+          onInput={setNote}
+          showArrow={false}
+        />
       </View>
 
       {/* Category Picker */}
-      {showCategoryPicker && (
-        <View className="picker-overlay" onClick={() => setShowCategoryPicker(false)}>
-          <View className="picker-content" onClick={(e) => e.stopPropagation()}>
-            <View className="picker-header">
-              <Text className="picker-cancel" onClick={() => setShowCategoryPicker(false)}>
-                取消
-              </Text>
-              <Text className="picker-title">选择分类</Text>
-              <Text className="picker-confirm" onClick={() => setShowCategoryPicker(false)}>
-                确定
-              </Text>
+      <Modal
+        visible={showCategoryPicker}
+        onClose={() => setShowCategoryPicker(false)}
+        title="选择分类"
+        position="bottom"
+      >
+        <View className="category-grid">
+          {filteredCategories.map((cat: ICategory) => (
+            <View
+              key={cat.id}
+              className="category-item"
+              onClick={() => {
+                setCategory(cat)
+                setShowCategoryPicker(false)
+              }}
+            >
+              <CategoryIcon
+                icon={cat.icon}
+                size="large"
+                active={category?.id === cat.id}
+              />
+              <Text className="category-name">{cat.name}</Text>
             </View>
-            <View className="category-grid">
-              {filteredCategories.map((cat: ICategory) => (
-                <View
-                  key={cat.id}
-                  className={`category-item ${category?.id === cat.id ? 'selected' : ''}`}
-                  onClick={() => setCategory(cat)}
-                >
-                  <View className="category-icon" style={{ backgroundColor: cat.color }}>
-                    {cat.icon}
-                  </View>
-                  <Text className="category-name">{cat.name}</Text>
-                </View>
-              ))}
-            </View>
-          </View>
+          ))}
         </View>
-      )}
+      </Modal>
 
       {/* Date Picker */}
-      {showDatePicker && (
-        <View className="picker-overlay" onClick={() => setShowDatePicker(false)}>
-          <View className="picker-content" onClick={(e) => e.stopPropagation()}>
-            <View className="picker-header">
-              <Text className="picker-cancel" onClick={() => setShowDatePicker(false)}>
-                取消
-              </Text>
-              <Text className="picker-title">选择日期</Text>
-              <Text className="picker-confirm" onClick={() => setShowDatePicker(false)}>
-                确定
-              </Text>
-            </View>
-            <Picker
-              value={[date]}
-              onChange={(val) => setDate(val[0] as unknown as string)}
-            >
-              {/* Date picker would need more implementation */}
-              <View className="date-quick-select">
-                <View className="date-quick-item" onClick={() => setDate(formatDate(new Date()))}>
-                  今天
-                </View>
-                <View className="date-quick-item" onClick={() => setDate(formatDate(dayjs().subtract(1, 'day').toDate()))}>
-                  昨天
-                </View>
-                <View className="date-quick-item" onClick={() => setDate(formatDate(dayjs().subtract(2, 'day').toDate()))}>
-                  前天
-                </View>
-              </View>
-            </Picker>
+      <Modal
+        visible={showDatePicker}
+        onClose={() => setShowDatePicker(false)}
+        title="选择日期"
+        position="bottom"
+      >
+        <View className="date-quick-select">
+          <View
+            className="date-quick-item"
+            onClick={() => {
+              setDate(formatDate(new Date()))
+              setShowDatePicker(false)
+            }}
+          >
+            今天
+          </View>
+          <View
+            className="date-quick-item"
+            onClick={() => {
+              setDate(formatDate(dayjs().subtract(1, 'day').toDate()))
+              setShowDatePicker(false)
+            }}
+          >
+            昨天
+          </View>
+          <View
+            className="date-quick-item"
+            onClick={() => {
+              setDate(formatDate(dayjs().subtract(2, 'day').toDate()))
+              setShowDatePicker(false)
+            }}
+          >
+            前天
           </View>
         </View>
-      )}
+      </Modal>
 
       {/* Save Button */}
       <View className="save-button">

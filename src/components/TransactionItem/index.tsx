@@ -1,5 +1,6 @@
 import { View, Text } from '@tarojs/components'
 import { FC, memo } from 'react'
+import { Swipe, Button } from '@nutui/nutui-react-taro'
 import { ITransaction } from '../../constants/commonType'
 import { TransactionType } from '../../constants/transaction'
 import { formatCurrency } from '../../utils/calculation'
@@ -13,9 +14,14 @@ interface Props {
   onDelete?: (id: string) => void
 }
 
-const TransactionItem: FC<Props> = ({ transaction, onClick }) => {
+const TransactionItem: FC<Props> = ({ transaction, onClick, onDelete }) => {
   const handleClick = () => {
     onClick && onClick(transaction)
+  }
+
+  const handleDelete = (e: any) => {
+    e.stopPropagation()
+    onDelete && onDelete(transaction.id)
   }
 
   const isExpense = transaction.type === TransactionType.EXPENSE
@@ -24,24 +30,37 @@ const TransactionItem: FC<Props> = ({ transaction, onClick }) => {
     'transaction-amount-income': !isExpense,
   })
 
+  const renderRight = () => (
+    <Button
+      type="danger"
+      shape="square"
+      style={{ height: '100%', borderRadius: 0 }}
+      onClick={handleDelete}
+    >
+      删除
+    </Button>
+  )
+
   return (
-    <View className="transaction-item" onClick={handleClick}>
-      <View className="transaction-left">
-        <View className="transaction-icon">{transaction.categoryIcon}</View>
-        <View className="transaction-info">
-          <Text className="transaction-category">{transaction.categoryName}</Text>
-          {transaction.note && (
-            <Text className="transaction-note">{transaction.note}</Text>
-          )}
+    <Swipe rightAction={renderRight()}>
+      <View className="transaction-item" onClick={handleClick}>
+        <View className="transaction-left">
+          <View className="transaction-icon">{transaction.categoryIcon}</View>
+          <View className="transaction-info">
+            <Text className="transaction-category">{transaction.categoryName}</Text>
+            {transaction.note && (
+              <Text className="transaction-note">{transaction.note}</Text>
+            )}
+          </View>
+        </View>
+        <View className="transaction-right">
+          <Text className={amountClass}>
+            {isExpense ? '-' : '+'}{formatCurrency(transaction.amount, false)}
+          </Text>
+          <Text className="transaction-time">{formatTime(transaction.date)}</Text>
         </View>
       </View>
-      <View className="transaction-right">
-        <Text className={amountClass}>
-          {isExpense ? '-' : '+'}{formatCurrency(transaction.amount, false)}
-        </Text>
-        <Text className="transaction-time">{formatTime(transaction.date)}</Text>
-      </View>
-    </View>
+    </Swipe>
   )
 }
 

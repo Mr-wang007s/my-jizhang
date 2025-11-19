@@ -2,19 +2,31 @@
 
 .settings-page {
   min-height: 100vh;
-  background: $background-color;
+  background: linear-gradient(135deg, #F2F2F7 0%, #E8E8ED 100%);
   padding-bottom: 100px;
 }
 
 .stats-card {
-  background: linear-gradient(135deg, $primary-color 0%, #5AC8FA 100%);
+  background: linear-gradient(135deg, rgba(0, 122, 255, 0.95) 0%, rgba(90, 200, 250, 0.9) 100%);
+  @include glass-card;
   margin: $spacing-md;
-  padding: $spacing-lg;
-  border-radius: $radius-lg;
-  box-shadow: $shadow-md;
+  padding: $spacing-xl;
   display: flex;
   justify-content: space-around;
   align-items: center;
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(45deg, rgba(255, 255, 255, 0.1) 0%, transparent 50%, rgba(255, 255, 255, 0.05) 100%);
+    pointer-events: none;
+  }
 }
 
 .stats-item {
@@ -54,11 +66,9 @@
 }
 
 .settings-list {
-  background: $card-background;
+  @include glass-card;
   margin: 0 $spacing-md;
-  border-radius: $radius-md;
   overflow: hidden;
-  box-shadow: $shadow-sm;
 }
 
 .settings-item {
@@ -67,14 +77,15 @@
   justify-content: space-between;
   padding: $spacing-md;
   border-bottom: 1px solid $border-color;
-  transition: background-color 0.2s;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 
   &:last-child {
     border-bottom: none;
   }
 
   &:active {
-    background-color: rgba(0, 0, 0, 0.03);
+    background-color: rgba(0, 122, 255, 0.08);
+    transform: scale(0.99);
   }
 }
 
