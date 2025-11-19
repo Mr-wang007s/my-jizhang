@@ -13,7 +13,6 @@ import Modal from '../../components/Modal'
 import FormItem from '../../components/FormItem'
 import CategoryIcon from '../../components/CategoryIcon'
 import dayjs from 'dayjs'
-import './index.scss'
 
 const QUICK_DATE_OPTIONS = [
   { label: '今天', offset: 0 },
@@ -145,59 +144,61 @@ function AddTransaction() {
   const currentDayDisplay = dayjs(date).format('YYYY年MM月DD日 dddd')
 
   return (
-    <View className="add-page">
-      <View className="hero-card">
-        <View className="hero-header">
+    <View className="min-h-screen bg-gradient-fade p-[32px_24px_160px] flex flex-col gap-xl">
+      <View className="glass-card rounded-xxl p-xl flex flex-col gap-lg" style={{ background: 'rgba(255, 255, 255, 0.8)', backdropFilter: 'blur(20px) saturate(160%)', WebkitBackdropFilter: 'blur(20px) saturate(160%)', border: '1px solid rgba(255, 255, 255, 0.7)' }}>
+        <View className="flex justify-between items-start gap-lg">
           <View>
-            <Text className="hero-title">{isEdit ? '编辑账单' : '快速记一笔'}</Text>
-            <Text className="hero-subtitle">{currentDayDisplay}</Text>
+            <Text className="text-2xl font-semibold text-text-primary">{isEdit ? '编辑账单' : '快速记一笔'}</Text>
+            <Text className="text-base text-text-secondary mt-xs">{currentDayDisplay}</Text>
           </View>
-          <View className="hero-toggle">
+          <View className="flex-shrink-0">
             <TypeToggle
               value={type}
               onChange={handleTypeChange}
             />
           </View>
         </View>
-        <View className="hero-amount">
-          <Text className="currency-symbol">¥</Text>
+        <View className="flex items-center rounded-xl p-[24px_16px]" style={{ background: 'rgba(255, 255, 255, 0.6)', boxShadow: 'inset 0 1px 0 rgba(255, 255, 255, 0.6)' }}>
+          <Text className="text-4xl text-text-secondary font-light mr-xs pt-sm">¥</Text>
           <Input
-            className="amount-input"
+            className="text-4xl font-light text-text-primary w-full border-none outline-none bg-transparent"
+            style={{ caretColor: '#007AFF' }}
             type="digit"
             placeholder="0.00"
+            placeholderClass="text-text-tertiary font-extralight"
             value={amount}
             onInput={handleAmountChange}
             focus
           />
         </View>
-        <View className="hero-meta">
-          <View className="meta-block" onClick={() => setShowCategoryPicker(true)}>
-            <Text className="meta-label">分类</Text>
-            <View className="meta-value">
+        <View className="flex items-center justify-between gap-lg pt-md" style={{ borderTop: '1px solid rgba(0, 0, 0, 0.04)' }}>
+          <View className="flex-1 flex flex-col gap-[6px]" onClick={() => setShowCategoryPicker(true)}>
+            <Text className="text-xs uppercase text-text-tertiary" style={{ letterSpacing: '1px' }}>分类</Text>
+            <View className="flex items-center gap-xs">
               {category ? (
                 <>
                   <CategoryIcon icon={category.icon} size="small" />
-                  <Text className="meta-text">{category.name}</Text>
+                  <Text className="text-lg text-text-primary font-semibold">{category.name}</Text>
                 </>
               ) : (
-                <Text className="meta-placeholder">请选择</Text>
+                <Text className="text-base text-text-secondary">请选择</Text>
               )}
             </View>
           </View>
-          <View className="meta-divider" />
-          <View className="meta-block" onClick={() => setShowDatePicker(true)}>
-            <Text className="meta-label">日期</Text>
-            <Text className="meta-text">{formatDate(date, 'MM月DD日')}</Text>
+          <View className="w-[1px] h-[36px]" style={{ background: 'rgba(0, 0, 0, 0.08)' }} />
+          <View className="flex-1 flex flex-col gap-[6px]" onClick={() => setShowDatePicker(true)}>
+            <Text className="text-xs uppercase text-text-tertiary" style={{ letterSpacing: '1px' }}>日期</Text>
+            <Text className="text-lg text-text-primary font-semibold">{formatDate(date, 'MM月DD日')}</Text>
           </View>
         </View>
       </View>
 
-      <View className="section-card">
-        <View className="section-header">
-          <Text className="section-title">详细信息</Text>
-          <Text className="section-desc">补全分类、日期与备注</Text>
+      <View className="bg-card-solid rounded-xxl p-xl shadow-md flex flex-col gap-md" style={{ border: '1px solid rgba(0, 0, 0, 0.04)' }}>
+        <View className="flex flex-col gap-[4px]">
+          <Text className="text-lg font-semibold text-text-primary">详细信息</Text>
+          <Text className="text-sm text-text-secondary">补全分类、日期与备注</Text>
         </View>
-        <View className="form-stack">
+        <View className="flex flex-col">
           <FormItem
             label="分类"
             value={category?.name}
@@ -223,42 +224,57 @@ function AddTransaction() {
       </View>
 
       {featuredCategories.length > 0 && (
-        <View className="section-card compact">
-          <View className="section-header">
-            <Text className="section-title">常用分类</Text>
-            <Text className="section-desc">轻点快速选择</Text>
+        <View className="bg-card-solid rounded-xxl p-lg shadow-md flex flex-col gap-md" style={{ border: '1px solid rgba(0, 0, 0, 0.04)' }}>
+          <View className="flex flex-col gap-[4px]">
+            <Text className="text-lg font-semibold text-text-primary">常用分类</Text>
+            <Text className="text-sm text-text-secondary">轻点快速选择</Text>
           </View>
-          <View className="quick-category-row">
+          <View className="grid grid-cols-4 gap-md">
             {featuredCategories.map((cat: ICategory) => (
               <View
                 key={cat.id}
-                className={`quick-category ${category?.id === cat.id ? 'active' : ''}`}
+                className={`rounded-xl p-[16px_12px] flex flex-col items-center gap-xs transition-all duration-fast ${category?.id === cat.id ? 'shadow-sm' : ''}`}
+                style={{
+                  background: category?.id === cat.id ? 'rgba(0, 122, 255, 0.08)' : 'rgba(0, 0, 0, 0.02)',
+                  border: `1px solid ${category?.id === cat.id ? 'rgba(0, 122, 255, 0.2)' : 'transparent'}`
+                }}
                 onClick={() => setCategory(cat)}
               >
                 <CategoryIcon icon={cat.icon} size="medium" active={category?.id === cat.id} />
-                <Text className="quick-category-name">{cat.name}</Text>
+                <Text className="text-xs text-text-secondary text-center">{cat.name}</Text>
               </View>
             ))}
           </View>
         </View>
       )}
 
-      <View className="section-card compact">
-        <View className="section-header">
-          <Text className="section-title">日期快捷键</Text>
-          <Text className="section-desc">常用记账场景</Text>
+      <View className="bg-card-solid rounded-xxl p-lg shadow-md flex flex-col gap-md" style={{ border: '1px solid rgba(0, 0, 0, 0.04)' }}>
+        <View className="flex flex-col gap-[4px]">
+          <Text className="text-lg font-semibold text-text-primary">日期快捷键</Text>
+          <Text className="text-sm text-text-secondary">常用记账场景</Text>
         </View>
-        <View className="quick-date-row">
+        <View className="grid grid-cols-4 gap-sm">
           {QUICK_DATE_OPTIONS.map((option) => (
             <View
               key={option.label}
-              className={`quick-date-item ${dayjs(date).isSame(dayjs().add(option.offset, 'day'), 'day') ? 'active' : ''}`}
+              className={`p-[16px_12px] text-center rounded-lg text-base font-semibold transition-all duration-fast active:scale-95 flex items-center justify-center ${
+                dayjs(date).isSame(dayjs().add(option.offset, 'day'), 'day') ? 'text-primary' : 'text-text-secondary'
+              }`}
+              style={{
+                background: dayjs(date).isSame(dayjs().add(option.offset, 'day'), 'day') ? 'rgba(0, 122, 255, 0.1)' : 'rgba(0, 0, 0, 0.02)',
+                border: `1px solid ${dayjs(date).isSame(dayjs().add(option.offset, 'day'), 'day') ? 'rgba(0, 122, 255, 0.3)' : 'transparent'}`,
+                minHeight: '36px'
+              }}
               onClick={() => handleQuickDateSelect(option.offset)}
             >
               <Text>{option.label}</Text>
             </View>
           ))}
-          <View className="quick-date-item outline" onClick={() => setShowDatePicker(true)}>
+          <View
+            className="p-[16px_12px] text-center text-base font-semibold text-text-secondary rounded-lg transition-all duration-fast active:scale-95 flex items-center justify-center"
+            style={{ background: 'transparent', border: '1px solid rgba(0, 0, 0, 0.1)', minHeight: '36px' }}
+            onClick={() => setShowDatePicker(true)}
+          >
             <Text>更多日期</Text>
           </View>
         </View>
@@ -271,11 +287,11 @@ function AddTransaction() {
         title="选择分类"
         position="bottom"
       >
-        <View className="category-grid">
+        <View className="grid grid-cols-4 gap-[32px_24px] p-0 overflow-y-auto max-h-[500px]" style={{ WebkitOverflowScrolling: 'touch' }}>
           {filteredCategories.map((cat: ICategory) => (
             <View
               key={cat.id}
-              className="category-item"
+              className="flex flex-col items-center gap-sm transition-transform duration-fast active:scale-95"
               onClick={() => {
                 setCategory(cat)
                 setShowCategoryPicker(false)
@@ -286,7 +302,7 @@ function AddTransaction() {
                 size="large"
                 active={category?.id === cat.id}
               />
-              <Text className="category-name">{cat.name}</Text>
+              <Text className="text-sm text-text-secondary text-center transition-all duration-fast">{cat.name}</Text>
             </View>
           ))}
         </View>
@@ -299,9 +315,14 @@ function AddTransaction() {
         title="选择日期"
         position="bottom"
       >
-        <View className="date-quick-select">
+        <View className="flex gap-md p-0">
           <View
-            className="date-quick-item"
+            className="flex-1 p-[24px_16px] rounded-lg text-center text-base text-primary font-semibold transition-all duration-fast active:scale-[0.96] flex items-center justify-center"
+            style={{
+              background: 'rgba(0, 122, 255, 0.06)',
+              border: '2px solid transparent',
+              minHeight: '56px'
+            }}
             onClick={() => {
               setDate(formatDate(new Date()))
               setShowDatePicker(false)
@@ -310,7 +331,12 @@ function AddTransaction() {
             今天
           </View>
           <View
-            className="date-quick-item"
+            className="flex-1 p-[24px_16px] rounded-lg text-center text-base text-primary font-semibold transition-all duration-fast active:scale-[0.96] flex items-center justify-center"
+            style={{
+              background: 'rgba(0, 122, 255, 0.06)',
+              border: '2px solid transparent',
+              minHeight: '56px'
+            }}
             onClick={() => {
               setDate(formatDate(dayjs().subtract(1, 'day').toDate()))
               setShowDatePicker(false)
@@ -319,7 +345,12 @@ function AddTransaction() {
             昨天
           </View>
           <View
-            className="date-quick-item"
+            className="flex-1 p-[24px_16px] rounded-lg text-center text-base text-primary font-semibold transition-all duration-fast active:scale-[0.96] flex items-center justify-center"
+            style={{
+              background: 'rgba(0, 122, 255, 0.06)',
+              border: '2px solid transparent',
+              minHeight: '56px'
+            }}
             onClick={() => {
               setDate(formatDate(dayjs().subtract(2, 'day').toDate()))
               setShowDatePicker(false)
@@ -331,8 +362,8 @@ function AddTransaction() {
       </Modal>
 
       {/* Save Button */}
-      <View className="save-button">
-        <Button type="primary" block onClick={handleSave}>
+      <View className="fixed bottom-xl left-lg right-lg z-fixed">
+        <Button type="primary" block onClick={handleSave} className="!h-button-lg !rounded-xl !text-lg !font-semibold !shadow-colored transition-all duration-normal active:!scale-[0.98]" style={{ background: 'linear-gradient(135deg, #007AFF 0%, #00C6FF 100%)', border: 'none' }}>
           {isEdit ? '更新' : '保存'}
         </Button>
       </View>

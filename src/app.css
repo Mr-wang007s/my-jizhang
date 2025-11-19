@@ -1,0 +1,58 @@
+/* Import NutUI styles */
+@import "@nutui/nutui-react-taro/dist/styles/themes/default.scss";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Custom iOS-style utilities */
+@layer utilities {
+  .glass-effect {
+    @apply bg-card backdrop-blur-glass;
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+  }
+
+  .glass-card {
+    @apply glass-effect rounded-lg shadow-glass;
+  }
+
+  .frosted-glass {
+    @apply bg-card-solid backdrop-blur-glass;
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+  }
+
+  .gradient-primary {
+    background: linear-gradient(135deg, #007AFF 0%, #00C6FF 100%);
+  }
+
+  .gradient-success {
+    background: linear-gradient(135deg, #34C759 0%, #30D158 100%);
+  }
+
+  .gradient-danger {
+    background: linear-gradient(135deg, #FF3B30 0%, #FF9500 100%);
+  }
+
+  .bg-gradient-fade {
+    background: linear-gradient(180deg, rgba(0, 122, 255, 0.04) 0%, #F5F5F7 420px);
+  }
+
+  .transition-spring {
+    transition-timing-function: cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  .transition-smooth {
+    transition-timing-function: cubic-bezier(0.25, 0.1, 0.25, 1);
+  }
+
+  .active-scale {
+    @apply active:scale-95 transition-transform duration-fast;
+  }
+}
+
+/* Global styles for Taro compatibility */
+page {
+  background-color: #F5F5F7;
+}

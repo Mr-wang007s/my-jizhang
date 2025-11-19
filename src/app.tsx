@@ -1,7 +1,7 @@
 import { Component, PropsWithChildren } from 'react'
 import { Provider } from 'react-redux'
 import configStore from './store'
-import './app.scss'
+import './app.css'
 
 const store = configStore()
 

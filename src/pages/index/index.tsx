@@ -11,7 +11,6 @@ import CLoading from '../../components/CLoading'
 import { formatCurrency, calculateTotal, calculateBalance } from '../../utils/calculation'
 import { getDateDisplay, formatDate } from '../../utils/date'
 import dayjs from 'dayjs'
-import './index.scss'
 
 interface GroupedTransactions {
   [date: string]: ITransaction[]
@@ -165,36 +164,36 @@ function Index() {
   }
 
   return (
-    <View className="index-page">
+    <View className="min-h-screen bg-gradient-fade pb-[140px]">
       {/* Overview Section */}
-      <View className="overview-section">
-        <View className="balance-card">
+      <View className="m-lg flex flex-col gap-lg">
+        <View className="gradient-primary rounded-xxl p-xl shadow-lg text-white flex flex-col gap-md" style={{ boxShadow: '0 16px 32px rgba(0, 0, 0, 0.12), 0 20px 40px rgba(0, 122, 255, 0.25)' }}>
           <View>
-            <Text className="balance-label">当前结余</Text>
-            <Text className="balance-value">{formatCurrency(balance)}</Text>
+            <Text className="text-base opacity-80 tracking-wide">当前结余</Text>
+            <Text className="text-4xl font-light" style={{ letterSpacing: '-1px' }}>{formatCurrency(balance)}</Text>
           </View>
-          <View className="balance-tags">
-            <Text className="balance-tag expense">总支出 {formatCurrency(totalExpense)}</Text>
-            <Text className="balance-tag income">总收入 {formatCurrency(totalIncome)}</Text>
+          <View className="flex gap-md flex-wrap">
+            <Text className="px-md py-xs rounded-lg text-sm inline-flex gap-xs items-center" style={{ background: 'rgba(255, 255, 255, 0.15)' }}>总支出 {formatCurrency(totalExpense)}</Text>
+            <Text className="px-md py-xs rounded-lg text-sm inline-flex gap-xs items-center" style={{ background: 'rgba(255, 255, 255, 0.15)' }}>总收入 {formatCurrency(totalIncome)}</Text>
           </View>
-          <Text className="balance-date">{today.format('MM月DD日 dddd')}</Text>
+          <Text className="text-sm" style={{ color: 'rgba(255, 255, 255, 0.8)' }}>{today.format('MM月DD日 dddd')}</Text>
         </View>
 
-        <View className="metric-grid">
-          <View className="metric-card expense">
-            <Text className="metric-label">本月支出</Text>
-            <Text className="metric-value">{formatCurrency(monthStats.monthExpense)}</Text>
-            <Text className="metric-trend">{getMonthTrendText(monthStats.monthExpense, monthStats.lastMonthExpense)}</Text>
+        <View className="grid gap-md" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))' }}>
+          <View className="bg-card-solid rounded-xl p-lg shadow-md flex flex-col gap-sm" style={{ border: '1px solid rgba(0, 0, 0, 0.04)', borderTop: '4px solid #FF3B30' }}>
+            <Text className="text-sm text-text-secondary" style={{ letterSpacing: '0.5px' }}>本月支出</Text>
+            <Text className="text-xl font-semibold text-text-primary">{formatCurrency(monthStats.monthExpense)}</Text>
+            <Text className="text-sm text-text-secondary">{getMonthTrendText(monthStats.monthExpense, monthStats.lastMonthExpense)}</Text>
           </View>
-          <View className="metric-card income">
-            <Text className="metric-label">本月收入</Text>
-            <Text className="metric-value">{formatCurrency(monthStats.monthIncome)}</Text>
-            <Text className="metric-trend">{getMonthTrendText(monthStats.monthIncome, monthStats.lastMonthIncome)}</Text>
+          <View className="bg-card-solid rounded-xl p-lg shadow-md flex flex-col gap-sm" style={{ border: '1px solid rgba(0, 0, 0, 0.04)', borderTop: '4px solid #34C759' }}>
+            <Text className="text-sm text-text-secondary" style={{ letterSpacing: '0.5px' }}>本月收入</Text>
+            <Text className="text-xl font-semibold text-text-primary">{formatCurrency(monthStats.monthIncome)}</Text>
+            <Text className="text-sm text-text-secondary">{getMonthTrendText(monthStats.monthIncome, monthStats.lastMonthIncome)}</Text>
           </View>
-          <View className="metric-card neutral">
-            <Text className="metric-label">今日支出</Text>
-            <Text className="metric-value">{formatCurrency(todayStats.todayExpense)}</Text>
-            <Text className="metric-trend">
+          <View className="bg-card-solid rounded-xl p-lg shadow-md flex flex-col gap-sm" style={{ border: '1px solid rgba(0, 0, 0, 0.04)', borderTop: '4px solid #8E8E93' }}>
+            <Text className="text-sm text-text-secondary" style={{ letterSpacing: '0.5px' }}>今日支出</Text>
+            <Text className="text-xl font-semibold text-text-primary">{formatCurrency(todayStats.todayExpense)}</Text>
+            <Text className="text-sm text-text-secondary">
               {todayStats.todayCount
                 ? `${todayStats.todayCount} 笔 · 平均 ${formatCurrency(todayStats.average)}`
                 : '今天还没有记账'}
@@ -205,25 +204,25 @@ function Index() {
 
       {/* Transaction List */}
       <ScrollView
-        className="transaction-list"
+        className="flex-1 pb-[200px]"
         scrollY
         refresherEnabled
         refresherTriggered={refreshing}
         onRefresherRefresh={handleRefresh}
       >
         {Object.keys(groupedTransactions).length === 0 ? (
-          <View className="empty-state">
-            <Text className="empty-text">暂无记录</Text>
-            <Text className="empty-hint">点击下方按钮开始记账</Text>
+          <View className="flex flex-col items-center justify-center p-[120px_16px] m-lg rounded-xl backdrop-blur-glass" style={{ background: 'rgba(255, 255, 255, 0.8)', WebkitBackdropFilter: 'blur(20px)', border: '1px solid rgba(0, 0, 0, 0.04)' }}>
+            <Text className="text-2xl text-text-secondary mb-md font-light">暂无记录</Text>
+            <Text className="text-base text-text-tertiary">点击下方按钮开始记账</Text>
           </View>
         ) : (
           Object.entries(groupedTransactions).map(([date, items]) => (
-            <View key={date} className="transaction-group">
-              <View className="transaction-date">
-                <Text className="date-text">{getDateDisplay(date)}</Text>
-                <Text className="date-full">{formatDate(date, 'YYYY年MM月DD日')}</Text>
+            <View key={date} className="mb-lg">
+              <View className="p-[12px_24px] flex items-baseline justify-between">
+                <Text className="text-lg font-bold text-text-primary">{getDateDisplay(date)}</Text>
+                <Text className="text-sm text-text-secondary font-medium">{formatDate(date, 'YYYY年MM月DD日')}</Text>
               </View>
-              <View className="transaction-items">
+              <View className="bg-card-solid mx-lg rounded-xl shadow-sm" style={{ border: '1px solid rgba(0, 0, 0, 0.04)' }}>
                 {items.map((transaction) => (
                   <TransactionItem
                     key={transaction.id}
@@ -238,15 +237,15 @@ function Index() {
         )}
       </ScrollView>
 
-      <View className="action-bar">
-        <View className="action-info">
-          <Text className="action-title">随时记录每一笔</Text>
-          <Text className="action-subtitle">
+      <View className="fixed left-lg right-lg bottom-xl bg-card-solid rounded-xxl shadow-lg p-[16px_24px] flex items-center justify-between gap-md z-fixed" style={{ border: '1px solid rgba(0, 0, 0, 0.04)' }}>
+        <View className="flex flex-col gap-[4px]">
+          <Text className="text-lg font-semibold text-text-primary">随时记录每一笔</Text>
+          <Text className="text-sm text-text-secondary">
             今日 {todayStats.todayCount} 笔 · {formatCurrency(todayStats.todayExpense)}
           </Text>
         </View>
-        <View className="action-button" onClick={handleAddClick}>
-          <Text className="action-text">+ 记一笔</Text>
+        <View className="gradient-primary px-xl h-button-lg rounded-xl flex items-center justify-center text-white text-lg font-semibold shadow-colored transition-transform duration-fast active:scale-[0.97]" onClick={handleAddClick} style={{ transitionTimingFunction: 'cubic-bezier(0.34, 1.56, 0.64, 1)' }}>
+          <Text className="text-white">+ 记一笔</Text>
         </View>
       </View>
     </View>
