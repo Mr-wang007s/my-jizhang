@@ -1,0 +1,203 @@
+@import "../../styles/variables";
+
+.statistics-page {
+  min-height: 100vh;
+  background: $background-color;
+  padding-bottom: 100px;
+}
+
+.period-selector {
+  display: flex;
+  background: $card-background;
+  margin: $spacing-md;
+  border-radius: $radius-md;
+  overflow: hidden;
+  box-shadow: $shadow-sm;
+}
+
+.period-item {
+  flex: 1;
+  padding: $spacing-md;
+  text-align: center;
+  font-size: $font-md;
+  color: $text-secondary;
+  transition: all 0.3s;
+
+  &.active {
+    color: $primary-color;
+    background: rgba(0, 122, 255, 0.1);
+    font-weight: 600;
+  }
+}
+
+.type-selector {
+  display: flex;
+  background: $card-background;
+  margin: 0 $spacing-md $spacing-md;
+  border-radius: $radius-md;
+  overflow: hidden;
+  box-shadow: $shadow-sm;
+}
+
+.type-item {
+  flex: 1;
+  padding: $spacing-sm;
+  text-align: center;
+  font-size: $font-sm;
+  color: $text-secondary;
+  transition: all 0.3s;
+
+  &.active {
+    color: $primary-color;
+    font-weight: 600;
+  }
+}
+
+.summary-card {
+  background: linear-gradient(135deg, $primary-color 0%, #5AC8FA 100%);
+  margin: 0 $spacing-md $spacing-md;
+  padding: $spacing-xl;
+  border-radius: $radius-lg;
+  box-shadow: $shadow-md;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.summary-label {
+  font-size: $font-sm;
+  color: rgba(255, 255, 255, 0.8);
+  margin-bottom: $spacing-sm;
+}
+
+.summary-amount {
+  font-size: 48px;
+  font-weight: 200;
+  color: #fff;
+  margin-bottom: $spacing-xs;
+
+  &.expense {
+    color: #FFE5E5;
+  }
+
+  &.income {
+    color: #D4EDDA;
+  }
+}
+
+.summary-count {
+  font-size: $font-sm;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.stats-list {
+  flex: 1;
+}
+
+.stat-item {
+  position: relative;
+  background: $card-background;
+  margin: 0 $spacing-md $spacing-sm;
+  padding: $spacing-md;
+  border-radius: $radius-md;
+  box-shadow: $shadow-sm;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  overflow: hidden;
+}
+
+.stat-left {
+  display: flex;
+  align-items: center;
+  flex: 1;
+  z-index: 1;
+}
+
+.stat-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: $radius-md;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  margin-right: $spacing-sm;
+}
+
+.stat-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.stat-name {
+  font-size: $font-md;
+  color: $text-primary;
+  font-weight: 500;
+  margin-bottom: 4px;
+}
+
+.stat-count {
+  font-size: $font-xs;
+  color: $text-secondary;
+}
+
+.stat-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  z-index: 1;
+}
+
+.stat-amount {
+  font-size: $font-lg;
+  font-weight: 600;
+  margin-bottom: 4px;
+
+  &.expense {
+    color: $danger-color;
+  }
+
+  &.income {
+    color: $success-color;
+  }
+}
+
+.stat-percentage {
+  font-size: $font-xs;
+  color: $text-tertiary;
+}
+
+.stat-bar-bg {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  background: transparent;
+}
+
+.stat-bar {
+  height: 100%;
+  transition: width 0.3s;
+
+  &.expense {
+    background: rgba(255, 59, 48, 0.1);
+  }
+
+  &.income {
+    background: rgba(52, 199, 89, 0.1);
+  }
+}
+
+.empty-state {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 100px $spacing-md;
+}
+
+.empty-text {
+  font-size: $font-lg;
+  color: $text-secondary;
+}

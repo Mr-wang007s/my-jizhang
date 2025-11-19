@@ -1,0 +1,87 @@
+@import "../../styles/variables";
+
+.transaction-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: $spacing-md;
+  background: $card-background;
+  border-bottom: 1px solid $border-color;
+  transition: background-color 0.2s;
+
+  &:active {
+    background-color: rgba(0, 0, 0, 0.03);
+  }
+
+  &:last-child {
+    border-bottom: none;
+  }
+}
+
+.transaction-left {
+  display: flex;
+  align-items: center;
+  flex: 1;
+  overflow: hidden;
+}
+
+.transaction-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: $radius-md;
+  background: $background-color;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  margin-right: $spacing-sm;
+  flex-shrink: 0;
+}
+
+.transaction-info {
+  flex: 1;
+  overflow: hidden;
+}
+
+.transaction-category {
+  display: block;
+  font-size: $font-md;
+  color: $text-primary;
+  font-weight: 500;
+  margin-bottom: 4px;
+}
+
+.transaction-note {
+  display: block;
+  font-size: $font-sm;
+  color: $text-secondary;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.transaction-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  margin-left: $spacing-sm;
+}
+
+.transaction-amount {
+  font-size: $font-lg;
+  font-weight: 600;
+  margin-bottom: 4px;
+
+  &-expense {
+    color: $danger-color;
+  }
+
+  &-income {
+    color: $success-color;
+  }
+}
+
+.transaction-time {
+  font-size: $font-xs;
+  color: $text-tertiary;
+}

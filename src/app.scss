@@ -1,0 +1,129 @@
+@import "@nutui/nutui-react-taro/dist/styles/themes/default.scss";
+@import "./styles/variables";
+
+// Global styles
+* {
+  box-sizing: border-box;
+}
+
+page {
+  background-color: $background-color;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: $font-md;
+  color: $text-primary;
+  line-height: 1.5;
+}
+
+// iOS-style card
+.ios-card {
+  background: $card-background;
+  border-radius: $radius-md;
+  margin: $spacing-md;
+  padding: $spacing-md;
+  box-shadow: $shadow-sm;
+}
+
+// iOS-style list
+.ios-list {
+  background: $card-background;
+  border-radius: $radius-md;
+  margin: $spacing-md;
+  overflow: hidden;
+
+  &-item {
+    padding: $spacing-md;
+    border-bottom: 1px solid $border-color;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    &:last-child {
+      border-bottom: none;
+    }
+
+    &:active {
+      background-color: rgba(0, 0, 0, 0.03);
+    }
+  }
+}
+
+// iOS-style button
+.ios-button {
+  background: $primary-color;
+  color: #fff;
+  border: none;
+  border-radius: $radius-md;
+  padding: $spacing-sm $spacing-lg;
+  font-size: $font-md;
+  font-weight: 500;
+  text-align: center;
+  cursor: pointer;
+  transition: opacity 0.2s;
+
+  &:active {
+    opacity: 0.8;
+  }
+
+  &-outline {
+    background: transparent;
+    color: $primary-color;
+    border: 1px solid $primary-color;
+  }
+
+  &-danger {
+    background: $danger-color;
+  }
+
+  &-success {
+    background: $success-color;
+  }
+}
+
+// Common utilities
+.text-center {
+  text-align: center;
+}
+
+.text-right {
+  text-align: right;
+}
+
+.text-primary {
+  color: $primary-color;
+}
+
+.text-success {
+  color: $success-color;
+}
+
+.text-danger {
+  color: $danger-color;
+}
+
+.text-secondary {
+  color: $text-secondary;
+}
+
+.mb-sm {
+  margin-bottom: $spacing-sm;
+}
+
+.mb-md {
+  margin-bottom: $spacing-md;
+}
+
+.mb-lg {
+  margin-bottom: $spacing-lg;
+}
+
+.mt-sm {
+  margin-top: $spacing-sm;
+}
+
+.mt-md {
+  margin-top: $spacing-md;
+}
+
+.mt-lg {
+  margin-top: $spacing-lg;
+}

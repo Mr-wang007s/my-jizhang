@@ -1,0 +1,43 @@
+// iOS Color System
+$primary-color: #007AFF;
+$success-color: #34C759;
+$danger-color: #FF3B30;
+$warning-color: #FF9500;
+$info-color: #5AC8FA;
+$background-color: #F2F2F7;
+$card-background: #FFFFFF;
+$border-color: #E5E5EA;
+$text-primary: #000000;
+$text-secondary: #8E8E93;
+$text-tertiary: #C7C7CC;
+
+// Spacing
+$spacing-xs: 8px;
+$spacing-sm: 12px;
+$spacing-md: 16px;
+$spacing-lg: 24px;
+$spacing-xl: 32px;
+
+// Border Radius
+$radius-sm: 8px;
+$radius-md: 10px;
+$radius-lg: 12px;
+$radius-xl: 16px;
+
+// Font Sizes
+$font-xs: 24px;
+$font-sm: 26px;
+$font-md: 28px;
+$font-lg: 32px;
+$font-xl: 36px;
+
+// Shadows
+$shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.04);
+$shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
+$shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.12);
+
+// Z-index
+$z-index-modal: 1000;
+$z-index-popup: 900;
+$z-index-fixed: 800;
+$z-index-tabbar: 700;
