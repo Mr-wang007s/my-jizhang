@@ -7,7 +7,6 @@ import { formatCurrency } from '../../utils/calculation'
 import TypeToggle from '../../components/TypeToggle'
 import CategoryIcon from '../../components/CategoryIcon'
 import dayjs from 'dayjs'
-import './index.scss'
 
 type PeriodType = 'week' | 'month' | 'year'
 type TrendRange = 7 | 15 | 30
@@ -164,42 +163,56 @@ function Statistics() {
   }
 
   return (
-    <View className="statistics-page">
-      {/* Period Selector */}
-      <View className="period-selector">
-        <View
-          className={`period-item ${period === 'week' ? 'active' : ''}`}
-          onClick={() => setPeriod('week')}
-        >
-          <Text>周</Text>
-        </View>
-        <View
-          className={`period-item ${period === 'month' ? 'active' : ''}`}
-          onClick={() => setPeriod('month')}
-        >
-          <Text>月</Text>
-        </View>
-        <View
-          className={`period-item ${period === 'year' ? 'active' : ''}`}
-          onClick={() => setPeriod('year')}
-        >
-          <Text>年</Text>
-        </View>
+    <View className="min-h-screen bg-gradient-fade pb-lg">
+      {/* Hero Section */}
+      <View className="px-lg pt-xl pb-md">
+        <Text className="text-3xl font-light text-text-primary mb-xs">数据分析</Text>
+        <Text className="text-sm text-text-secondary">深入了解你的财务状况</Text>
       </View>
 
-      {/* Type Selector */}
-      <TypeToggle
-        value={selectedType as 'expense' | 'income'}
-        onChange={(value) => setSelectedType(value as TransactionType)}
-      />
+      {/* Period & Type Selector */}
+      <View className="px-lg mb-lg">
+        <View className="bg-card-solid rounded-xxl shadow-lg p-md" style={{ border: '1px solid rgba(0, 0, 0, 0.04)' }}>
+          <View className="flex justify-between items-center mb-md">
+            <View className="flex gap-xs">
+              {(['week', 'month', 'year'] as PeriodType[]).map((p) => (
+                <View
+                  key={p}
+                  className={`px-lg py-sm rounded-lg transition-all duration-fast ${period === p ? 'bg-primary text-white' : 'bg-transparent text-text-secondary'}`}
+                  onClick={() => setPeriod(p)}
+                >
+                  <Text className={period === p ? 'text-white font-semibold' : 'text-text-secondary'}>
+                    {p === 'week' ? '周' : p === 'month' ? '月' : '年'}
+                  </Text>
+                </View>
+              ))}
+            </View>
+            <TypeToggle
+              value={selectedType as 'expense' | 'income'}
+              onChange={(value) => setSelectedType(value as TransactionType)}
+            />
+          </View>
 
-      {/* Summary Card */}
-      <View className="summary-card">
-        <Text className="summary-label">{getPeriodText()}{selectedType === TransactionType.EXPENSE ? '支出' : '收入'}</Text>
-        <Text className={`summary-amount ${selectedType}`}>
-          {formatCurrency(totalAmount)}
-        </Text>
-        <Text className="summary-count">共 {filteredTransactions.length} 笔</Text>
+          {/* Quick Stats */}
+          <View className="grid grid-cols-3 gap-md pt-md" style={{ borderTop: '1px solid rgba(0, 0, 0, 0.06)' }}>
+            <View className="text-center">
+              <Text className="text-xs text-text-tertiary mb-xs block">总额</Text>
+              <Text className={`text-lg font-bold ${selectedType === TransactionType.EXPENSE ? 'text-expense' : 'text-income'}`}>
+                {formatCurrency(totalAmount)}
+              </Text>
+            </View>
+            <View className="text-center">
+              <Text className="text-xs text-text-tertiary mb-xs block">笔数</Text>
+              <Text className="text-lg font-bold text-text-primary">{filteredTransactions.length}</Text>
+            </View>
+            <View className="text-center">
+              <Text className="text-xs text-text-tertiary mb-xs block">均值</Text>
+              <Text className="text-lg font-bold text-text-primary">
+                {filteredTransactions.length > 0 ? formatCurrency(totalAmount / filteredTransactions.length) : '¥0.00'}
+              </Text>
+            </View>
+          </View>
+        </View>
       </View>
 
       {/* Trend Section */}
