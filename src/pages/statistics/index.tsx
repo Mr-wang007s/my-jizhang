@@ -215,104 +215,191 @@ function Statistics() {
         </View>
       </View>
 
-      {/* Trend Section */}
-      <View className="trend-section">
-        <View className="trend-header">
-          <View className="trend-title-wrap">
-            <Text className="trend-title">{selectedType === TransactionType.EXPENSE ? '消费趋势' : '收入趋势'}</Text>
-            <Text className="trend-subtitle">{trendSummary.rangeText}</Text>
+      {/* Trend Chart */}
+      <View className="px-lg mb-lg">
+        <View className="bg-card-solid rounded-xxl shadow-md p-lg" style={{ border: '1px solid rgba(0, 0, 0, 0.04)' }}>
+          <View className="flex justify-between items-center mb-lg">
+            <View>
+              <Text className="text-xl font-bold text-text-primary">{selectedType === TransactionType.EXPENSE ? '消费趋势' : '收入趋势'}</Text>
+              <Text className="text-xs text-text-secondary mt-xs">{trendSummary.rangeText}</Text>
+            </View>
+            <View className="flex gap-xs">
+              {TREND_RANGE_OPTIONS.map((option) => (
+                <View
+                  key={option.value}
+                  className={`px-md py-xs rounded-md text-xs font-medium transition-all duration-fast ${
+                    trendRange === option.value
+                      ? 'bg-primary text-white'
+                      : 'bg-transparent text-text-secondary'
+                  }`}
+                  style={{ border: trendRange === option.value ? 'none' : '1px solid rgba(0, 0, 0, 0.1)' }}
+                  onClick={() => setTrendRange(option.value)}
+                >
+                  <Text className={trendRange === option.value ? 'text-white' : 'text-text-secondary'}>{option.label}</Text>
+                </View>
+              ))}
+            </View>
           </View>
-          <View className="trend-range">
-            {TREND_RANGE_OPTIONS.map((option) => (
-              <View
-                key={option.value}
-                className={`trend-range-item ${trendRange === option.value ? 'active' : ''}`}
-                onClick={() => setTrendRange(option.value)}
-              >
-                <Text>{option.label}</Text>
-              </View>
-            ))}
-          </View>
-        </View>
 
-        <View className="trend-metrics">
-          <View className="trend-metric">
-            <Text className="metric-label">总额</Text>
-            <Text className={`metric-value ${selectedType}`}>
-              {formatCurrency(trendSummary.total)}
-            </Text>
-          </View>
-          <View className="trend-metric">
-            <Text className="metric-label">日均</Text>
-            <Text className="metric-value">
-              {formatCurrency(trendSummary.average)}
-            </Text>
-          </View>
-          <View className="trend-metric">
-            <Text className="metric-label">峰值日</Text>
-            <Text className="metric-value">
-              {trendSummary.peak.amount > 0 ? dayjs(trendSummary.peak.date).format('MM/DD') : '--'}
-            </Text>
-          </View>
-        </View>
+          {/* Enhanced Bar Chart */}
+          <ScrollView
+            scrollX
+            enableFlex
+            className="overflow-hidden"
+          >
+            <View className="flex gap-md py-md" style={{ minWidth: `${trendRange * 60}px` }}>
+              {trendData.map((point) => {
+                const height = trendMaxAmount > 0 ? (point.amount / trendMaxAmount) * 100 : 0
+                const isToday = dayjs(point.date).isSame(dayjs(), 'day')
+                const isHighest = point.amount === trendMaxAmount && point.amount > 0
 
-        <ScrollView className="trend-chart" scrollX enableFlex>
-          <View className="trend-columns">
-            {trendData.map((point) => {
-              const height = trendMaxAmount > 0 ? (point.amount / trendMaxAmount) * 100 : 0
-              return (
-                <View key={point.date} className="trend-column">
-                  <View className="trend-bar-wrapper">
+                return (
+                  <View key={point.date} className="flex-1 flex flex-col items-center gap-xs min-w-[48px]">
+                    {/* Amount Label */}
+                    {point.amount > 0 && (
+                      <Text className={`text-xs font-medium ${isHighest ? 'text-primary' : 'text-text-secondary'}`}>
+                        {point.amount >= 1000 ? `${(point.amount / 1000).toFixed(1)}k` : point.amount.toFixed(0)}
+                      </Text>
+                    )}
+
+                    {/* Bar */}
                     <View
-                      className={`trend-bar ${selectedType}`}
-                      style={{ height: `${Math.max(height, 5)}%` }}
+                      className="w-full rounded-t-lg transition-all duration-300"
+                      style={{
+                        height: `${Math.max(height * 1.2, 8)}px`,
+                        maxHeight: '120px',
+                        background: point.amount > 0
+                          ? selectedType === TransactionType.EXPENSE
+                            ? isHighest ? '#FF3B30' : 'linear-gradient(180deg, rgba(255, 59, 48, 0.8) 0%, rgba(255, 59, 48, 0.4) 100%)'
+                            : isHighest ? '#34C759' : 'linear-gradient(180deg, rgba(52, 199, 89, 0.8) 0%, rgba(52, 199, 89, 0.4) 100%)'
+                          : 'rgba(0, 0, 0, 0.05)',
+                        boxShadow: isHighest ? '0 4px 12px rgba(0, 122, 255, 0.3)' : 'none'
+                      }}
                     />
+
+                    {/* Date Label */}
+                    <Text className={`text-xs ${isToday ? 'font-bold text-primary' : 'text-text-tertiary'}`}>
+                      {dayjs(point.date).format('DD')}
+                    </Text>
                   </View>
-                  <Text className="trend-amount">
-                    {point.amount === 0 ? '-' : formatCurrency(point.amount)}
-                  </Text>
-                  <Text className="trend-date">{dayjs(point.date).format('MM/DD')}</Text>
+                )
+              })}
+            </View>
+          </ScrollView>
+
+          {/* Insights */}
+          <View className="mt-lg pt-md flex gap-md" style={{ borderTop: '1px solid rgba(0, 0, 0, 0.06)' }}>
+            <View className="flex-1 rounded-lg p-md" style={{ background: 'rgba(0, 122, 255, 0.06)' }}>
+              <Text className="text-xs text-text-secondary">峰值</Text>
+              <Text className="text-base font-bold text-primary mt-xs">
+                {trendSummary.peak.amount > 0 ? formatCurrency(trendSummary.peak.amount) : '--'}
+              </Text>
+              <Text className="text-xs text-text-tertiary mt-xs">
+                {trendSummary.peak.amount > 0 ? dayjs(trendSummary.peak.date).format('MM/DD') : '暂无'}
+              </Text>
+            </View>
+            <View className="flex-1 rounded-lg p-md" style={{ background: 'rgba(0, 0, 0, 0.03)' }}>
+              <Text className="text-xs text-text-secondary">日均</Text>
+              <Text className="text-base font-bold text-text-primary mt-xs">
+                {formatCurrency(trendSummary.average)}
+              </Text>
+              <Text className="text-xs text-text-tertiary mt-xs">
+                {trendData.length}天数据
+              </Text>
+            </View>
+          </View>
+        </View>
+      </View>
+
+      {/* Category Ranking */}
+      <View className="px-lg">
+        <View className="flex justify-between items-center mb-md">
+          <Text className="text-xl font-bold text-text-primary">分类排行</Text>
+          <Text className="text-xs text-text-secondary">共 {categoryStats.length} 个分类</Text>
+        </View>
+
+        {categoryStats.length === 0 ? (
+          <View className="bg-card-solid rounded-xxl p-xl text-center" style={{ border: '1px solid rgba(0, 0, 0, 0.04)' }}>
+            <Text className="text-4xl mb-md">📊</Text>
+            <Text className="text-base text-text-secondary mb-xs">暂无数据</Text>
+            <Text className="text-sm text-text-tertiary">开始记账后这里会显示分类统计</Text>
+          </View>
+        ) : (
+          <View className="flex flex-col gap-md">
+            {categoryStats.map((stat, index) => {
+              const isTop3 = index < 3
+              const rankColors = ['#FFD700', '#C0C0C0', '#CD7F32']
+
+              return (
+                <View
+                  key={stat.categoryId}
+                  className="bg-card-solid rounded-xl p-lg shadow-sm relative overflow-hidden"
+                  style={{ border: '1px solid rgba(0, 0, 0, 0.04)' }}
+                >
+                  {/* Background Progress Bar */}
+                  <View
+                    className="absolute left-0 top-0 bottom-0 transition-all duration-500"
+                    style={{
+                      width: `${stat.percentage}%`,
+                      background: selectedType === TransactionType.EXPENSE
+                        ? 'linear-gradient(90deg, rgba(255, 59, 48, 0.08) 0%, rgba(255, 59, 48, 0.02) 100%)'
+                        : 'linear-gradient(90deg, rgba(52, 199, 89, 0.08) 0%, rgba(52, 199, 89, 0.02) 100%)',
+                      borderRadius: '16px'
+                    }}
+                  />
+
+                  <View className="flex items-center justify-between relative z-10">
+                    <View className="flex items-center gap-md flex-1">
+                      {/* Rank Badge */}
+                      {isTop3 ? (
+                        <View
+                          className="w-[32px] h-[32px] rounded-full flex items-center justify-center font-bold text-white"
+                          style={{ background: rankColors[index] }}
+                        >
+                          <Text className="text-white font-bold">{index + 1}</Text>
+                        </View>
+                      ) : (
+                        <View
+                          className="w-[32px] h-[32px] rounded-full flex items-center justify-center text-text-secondary"
+                          style={{ background: 'rgba(0, 0, 0, 0.05)' }}
+                        >
+                          <Text className="text-text-secondary text-sm">{index + 1}</Text>
+                        </View>
+                      )}
+
+                      {/* Category Info */}
+                      <CategoryIcon icon={stat.categoryIcon} size="medium" />
+                      <View className="flex-1">
+                        <Text className="text-base font-semibold text-text-primary">{stat.categoryName}</Text>
+                        <Text className="text-xs text-text-secondary mt-xs">{stat.count} 笔交易</Text>
+                      </View>
+                    </View>
+
+                    {/* Amount & Percentage */}
+                    <View className="text-right">
+                      <Text className={`text-lg font-bold ${selectedType === TransactionType.EXPENSE ? 'text-expense' : 'text-income'}`}>
+                        {formatCurrency(stat.amount)}
+                      </Text>
+                      <View
+                        className="px-md py-xs rounded-full mt-xs inline-flex"
+                        style={{
+                          background: selectedType === TransactionType.EXPENSE
+                            ? 'rgba(255, 59, 48, 0.1)'
+                            : 'rgba(52, 199, 89, 0.1)'
+                        }}
+                      >
+                        <Text className={`text-xs font-semibold ${selectedType === TransactionType.EXPENSE ? 'text-expense' : 'text-income'}`}>
+                          {stat.percentage.toFixed(1)}%
+                        </Text>
+                      </View>
+                    </View>
+                  </View>
                 </View>
               )
             })}
           </View>
-        </ScrollView>
-      </View>
-
-      {/* Category Statistics */}
-      <ScrollView className="stats-list" scrollY>
-        {categoryStats.length === 0 ? (
-          <View className="empty-state">
-            <Text className="empty-text">暂无数据</Text>
-          </View>
-        ) : (
-          categoryStats.map((stat) => (
-            <View key={stat.categoryId} className="stat-item">
-              <View className="stat-left">
-                <CategoryIcon icon={stat.categoryIcon} size="medium" />
-                <View className="stat-info">
-                  <Text className="stat-name">{stat.categoryName}</Text>
-                  <Text className="stat-count">{stat.count} 笔</Text>
-                </View>
-              </View>
-              <View className="stat-right">
-                <Text className={`stat-amount ${selectedType}`}>
-                  {formatCurrency(stat.amount)}
-                </Text>
-                <Text className="stat-percentage">
-                  {stat.percentage.toFixed(1)}%
-                </Text>
-              </View>
-              <View className="stat-bar-bg">
-                <View
-                  className={`stat-bar ${selectedType}`}
-                  style={{ width: `${stat.percentage}%` }}
-                />
-              </View>
-            </View>
-          ))
         )}
-      </ScrollView>
+      </View>
     </View>
   )
 }
