@@ -1,27 +1,17 @@
-import { PropsWithChildren } from 'react';
-import Taro, { useLaunch } from '@tarojs/taro';
-import './app.scss';
+import { PropsWithChildren } from 'react'
+import { useLaunch } from '@tarojs/taro'
 
-function App({ children }: PropsWithChildren) {
+import './app.css'
+
+function App({ children }: PropsWithChildren<any>) {
   useLaunch(() => {
-    console.log('App launched.');
+    console.log('App launched.')
+  })
 
-    // Initialize WeChat Cloud (only in WeChat mini-program environment)
-    if (process.env.TARO_ENV === 'weapp') {
-      try {
-        Taro.cloud.init({
-          // Replace with your WeChat Cloud environment ID
-          env: 'your-cloud-env-id',
-          traceUser: true,
-        });
-        console.log('WeChat Cloud initialized');
-      } catch (error) {
-        console.error('Failed to initialize WeChat Cloud:', error);
-      }
-    }
-  });
-
-  return children;
+  // children 是将要会渲染的页面
+  return children
 }
+  
 
-export default App;
+
+export default App

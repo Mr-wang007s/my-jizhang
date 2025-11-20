@@ -27,19 +27,19 @@ Taro mini-program project structure:
 
 **Purpose**: Project initialization and basic structure aligned with constitution principles
 
-- [x] T001 Initialize Taro 4.x project with TypeScript and React template
-- [x] T002 [P] Install core dependencies: zustand, dayjs, tailwindcss, postcss, autoprefixer
-- [x] T003 [P] Install dev dependencies: jest, @testing-library/react, @testing-library/jest-dom, @tarojs/test-utils-react, ts-jest, @types/jest
-- [x] T004 [P] Configure TailwindCSS in tailwind.config.js with custom colors (income: #34D399, expense: #EF4444, primary: #3B82F6)
-- [x] T005 [P] Configure Taro build in config/index.ts with mini-program optimizations and TailwindCSS integration
-- [x] T006 [P] Configure Jest in jest.config.js with ts-jest, jsdom environment, and module name mapping
-- [x] T007 [P] Create Taro API mocks in __mocks__/taro.ts for testing (storage, cloud, navigation)
-- [x] T008 [P] Setup project structure: create directories src/components, src/pages, src/services, src/store, src/utils, src/types, src/assets/icons, __tests__/services, __tests__/utils, __tests__/components
-- [x] T009 Create global styles in src/app.scss with Tailwind imports
-- [x] T010 [P] Configure WeChat mini-program project in project.config.json with environment ID placeholder
-- [x] T011 [P] Create TypeScript configuration in tsconfig.json with strict mode enabled
-- [x] T012 [P] Setup ESLint and Prettier configurations for code quality
-- [x] T013 Add npm scripts to package.json: dev:weapp, build:weapp, dev:h5, build:h5, test, test:watch, test:coverage, lint
+- [ ] T001 Initialize Taro 4.x project with TypeScript and React template
+- [ ] T002 [P] Install core dependencies: zustand, dayjs, tailwindcss, postcss, autoprefixer
+- [ ] T003 [P] Install dev dependencies: jest, @testing-library/react, @testing-library/jest-dom, @tarojs/test-utils-react, ts-jest, @types/jest
+- [ ] T004 [P] Configure TailwindCSS in tailwind.config.js with custom colors (income: #34D399, expense: #EF4444, primary: #3B82F6)
+- [ ] T005 [P] Configure Taro build in config/index.ts with mini-program optimizations and TailwindCSS integration
+- [ ] T006 [P] Configure Jest in jest.config.js with ts-jest, jsdom environment, and module name mapping
+- [ ] T007 [P] Create Taro API mocks in __mocks__/taro.ts for testing (storage, cloud, navigation)
+- [ ] T008 [P] Setup project structure: create directories src/components, src/pages, src/services, src/store, src/utils, src/types, src/assets/icons, __tests__/services, __tests__/utils, __tests__/components
+- [ ] T009 Create global styles in src/app.scss with Tailwind imports
+- [ ] T010 [P] Configure WeChat mini-program project in project.config.json with environment ID placeholder
+- [ ] T011 [P] Create TypeScript configuration in tsconfig.json with strict mode enabled
+- [ ] T012 [P] Setup ESLint and Prettier configurations for code quality
+- [ ] T013 Add npm scripts to package.json: dev:weapp, build:weapp, dev:h5, build:h5, test, test:watch, test:coverage, lint
 
 ---
 
@@ -49,20 +49,20 @@ Taro mini-program project structure:
 
 **⚠️ CRITICAL**: No user story work can begin until this phase is complete
 
-- [x] T014 Define TypeScript types in src/types/index.ts: Transaction, Category, CreateTransactionInput, UpdateTransactionInput, CreateCategoryInput, UpdateCategoryInput, MonthlyBalance, CategoryBreakdown, TimeSeries
-- [x] T015 [P] Create utility function for CNY currency formatting in src/utils/currency.ts using Intl.NumberFormat
-- [x] T016 [P] Create date utility functions in src/utils/date.ts with dayjs wrappers for formatting, range calculations, month operations
-- [x] T017 [P] Create validation utility functions in src/utils/validation.ts for amount, date, category validation
-- [x] T018 [P] Write unit tests for currency formatting in __tests__/utils/currency.test.ts
-- [x] T019 [P] Write unit tests for date utilities in __tests__/utils/date.test.ts
-- [x] T020 [P] Write unit tests for validation utilities in __tests__/utils/validation.test.ts
-- [x] T021 Initialize Zustand store in src/store/index.ts with persist middleware and Taro storage adapter
-- [x] T022 Define store state interface: transactions, categories, balance, loading
-- [x] T023 Define store actions: setTransactions, addTransaction, updateTransaction, deleteTransaction, setCategories, setLoading
-- [x] T024 Configure app entry point in src/app.ts with WeChat Cloud initialization (conditional on TARO_ENV)
-- [x] T025 Configure app pages and tab bar in src/app.config.ts: pages (index, transactions, add-transaction, trends, settings), tabBar with 4 tabs
-- [x] T026 Create placeholder tab bar icons in src/assets/icons/ (home, list, chart, settings - both normal and active states)
-- [x] T027 Create storage adapter abstraction for platform independence (WeChat Cloud DB vs local storage)
+- [ ] T014 Define TypeScript types in src/types/index.ts: Transaction, Category, CreateTransactionInput, UpdateTransactionInput, CreateCategoryInput, UpdateCategoryInput, MonthlyBalance, CategoryBreakdown, TimeSeries
+- [ ] T015 [P] Create utility function for CNY currency formatting in src/utils/currency.ts using Intl.NumberFormat
+- [ ] T016 [P] Create date utility functions in src/utils/date.ts with dayjs wrappers for formatting, range calculations, month operations
+- [ ] T017 [P] Create validation utility functions in src/utils/validation.ts for amount, date, category validation
+- [ ] T018 [P] Write unit tests for currency formatting in __tests__/utils/currency.test.ts
+- [ ] T019 [P] Write unit tests for date utilities in __tests__/utils/date.test.ts
+- [ ] T020 [P] Write unit tests for validation utilities in __tests__/utils/validation.test.ts
+- [ ] T021 Initialize Zustand store in src/store/index.ts with persist middleware and Taro storage adapter
+- [ ] T022 Define store state interface: transactions, categories, balance, loading
+- [ ] T023 Define store actions: setTransactions, addTransaction, updateTransaction, deleteTransaction, setCategories, setLoading
+- [ ] T024 Configure app entry point in src/app.ts with WeChat Cloud initialization (conditional on TARO_ENV)
+- [ ] T025 Configure app pages and tab bar in src/app.config.ts: pages (index, transactions, add-transaction, trends, settings), tabBar with 4 tabs
+- [ ] T026 Create placeholder tab bar icons in src/assets/icons/ (home, list, chart, settings - both normal and active states)
+- [ ] T027 Create storage adapter abstraction for platform independence (WeChat Cloud DB vs local storage)
 
 **Checkpoint**: Foundation ready - user story implementation can now begin in parallel
 
@@ -78,42 +78,42 @@ Taro mini-program project structure:
 
 > Write these tests FIRST, ensure they FAIL before implementation.
 
-- [x] T028 [P] [US1] Write integration test for TransactionService.create in __tests__/services/transaction.service.test.ts
-- [x] T029 [P] [US1] Write integration test for TransactionService.list with pagination in __tests__/services/transaction.service.test.ts
-- [x] T030 [P] [US1] Write integration test for TransactionService.update in __tests__/services/transaction.service.test.ts
-- [x] T031 [P] [US1] Write integration test for TransactionService.delete in __tests__/services/transaction.service.test.ts
-- [x] T032 [P] [US1] Write integration test for CategoryService.initializeDefaults in __tests__/services/category.service.test.ts
-- [x] T033 [P] [US1] Write integration test for CategoryService.list in __tests__/services/category.service.test.ts
+- [ ] T028 [P] [US1] Write integration test for TransactionService.create in __tests__/services/transaction.service.test.ts
+- [ ] T029 [P] [US1] Write integration test for TransactionService.list with pagination in __tests__/services/transaction.service.test.ts
+- [ ] T030 [P] [US1] Write integration test for TransactionService.update in __tests__/services/transaction.service.test.ts
+- [ ] T031 [P] [US1] Write integration test for TransactionService.delete in __tests__/services/transaction.service.test.ts
+- [ ] T032 [P] [US1] Write integration test for CategoryService.initializeDefaults in __tests__/services/category.service.test.ts
+- [ ] T033 [P] [US1] Write integration test for CategoryService.list in __tests__/services/category.service.test.ts
 
 ### Implementation for User Story 1
 
 #### Services Layer
 
-- [x] T034 [P] [US1] Implement CategoryService.initializeDefaults in src/services/category.service.ts with 12 default categories (工资, 奖金, 投资收益, 餐饮, 交通, 购物, 水电费, 娱乐, 医疗, 教育, 住房, 其他)
-- [x] T035 [P] [US1] Implement CategoryService.list in src/services/category.service.ts with type filtering and ordering
-- [x] T036 [P] [US1] Implement CategoryService.getById in src/services/category.service.ts
-- [x] T037 [US1] Implement TransactionService.create in src/services/transaction.service.ts with validation (positive amount, valid date range, category exists, 2 decimal places)
-- [x] T038 [US1] Implement TransactionService.list in src/services/transaction.service.ts with filters (type, categoryId, date range), sorting, pagination
-- [x] T039 [US1] Implement TransactionService.update in src/services/transaction.service.ts with validation
-- [x] T040 [US1] Implement TransactionService.delete in src/services/transaction.service.ts
-- [x] T041 [US1] Implement TransactionService.getById in src/services/transaction.service.ts
+- [ ] T034 [P] [US1] Implement CategoryService.initializeDefaults in src/services/category.service.ts with 12 default categories (工资, 奖金, 投资收益, 餐饮, 交通, 购物, 水电费, 娱乐, 医疗, 教育, 住房, 其他)
+- [ ] T035 [P] [US1] Implement CategoryService.list in src/services/category.service.ts with type filtering and ordering
+- [ ] T036 [P] [US1] Implement CategoryService.getById in src/services/category.service.ts
+- [ ] T037 [US1] Implement TransactionService.create in src/services/transaction.service.ts with validation (positive amount, valid date range, category exists, 2 decimal places)
+- [ ] T038 [US1] Implement TransactionService.list in src/services/transaction.service.ts with filters (type, categoryId, date range), sorting, pagination
+- [ ] T039 [US1] Implement TransactionService.update in src/services/transaction.service.ts with validation
+- [ ] T040 [US1] Implement TransactionService.delete in src/services/transaction.service.ts
+- [ ] T041 [US1] Implement TransactionService.getById in src/services/transaction.service.ts
 
 #### UI Components
 
-- [x] T042 [P] [US1] Create CategorySelector component in src/components/CategorySelector/index.tsx with icon, color display, and type filtering
-- [x] T043 [P] [US1] Create TransactionList component in src/components/TransactionList/index.tsx with virtualization for performance, visual distinction (green/red), CNY formatting
-- [x] T044 [US1] Create add-transaction page in src/pages/add-transaction/index.tsx with form (amount input, type selector, category selector, date picker, note textarea)
-- [x] T045 [US1] Add form validation to add-transaction page: amount > 0, max 2 decimals, date within allowed range, category required
-- [x] T046 [US1] Add error handling and success toast to add-transaction page
-- [x] T047 [US1] Create transactions list page in src/pages/transactions/index.tsx displaying TransactionList component with pull-to-refresh
-- [x] T048 [US1] Add edit transaction functionality: navigate to add-transaction page with pre-filled data, update on save
-- [x] T049 [US1] Add delete transaction functionality with confirmation dialog
-- [x] T050 [US1] Add filter controls to transactions page (type, category, date range)
+- [ ] T042 [P] [US1] Create CategorySelector component in src/components/CategorySelector/index.tsx with icon, color display, and type filtering
+- [ ] T043 [P] [US1] Create TransactionList component in src/components/TransactionList/index.tsx with virtualization for performance, visual distinction (green/red), CNY formatting
+- [ ] T044 [US1] Create add-transaction page in src/pages/add-transaction/index.tsx with form (amount input, type selector, category selector, date picker, note textarea)
+- [ ] T045 [US1] Add form validation to add-transaction page: amount > 0, max 2 decimals, date within allowed range, category required
+- [ ] T046 [US1] Add error handling and success toast to add-transaction page
+- [ ] T047 [US1] Create transactions list page in src/pages/transactions/index.tsx displaying TransactionList component with pull-to-refresh
+- [ ] T048 [US1] Add edit transaction functionality: navigate to add-transaction page with pre-filled data, update on save
+- [ ] T049 [US1] Add delete transaction functionality with confirmation dialog
+- [ ] T050 [US1] Add filter controls to transactions page (type, category, date range)
 
 #### Integration & Testing
 
-- [x] T051 [US1] Integrate TransactionService with Zustand store actions
-- [x] T052 [US1] Integrate CategoryService with Zustand store, initialize defaults on first app launch
+- [ ] T051 [US1] Integrate TransactionService with Zustand store actions
+- [ ] T052 [US1] Integrate CategoryService with Zustand store, initialize defaults on first app launch
 - [ ] T053 [US1] Write component test for CategorySelector in __tests__/components/CategorySelector.test.tsx
 - [ ] T054 [US1] Write component test for TransactionList in __tests__/components/TransactionList.test.tsx
 - [ ] T055 [US1] Write component test for add-transaction page in __tests__/components/AddTransaction.test.tsx (validation, submission)
