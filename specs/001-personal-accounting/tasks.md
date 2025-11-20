@@ -100,20 +100,20 @@ Taro mini-program project structure:
 
 #### UI Components
 
-- [ ] T042 [P] [US1] Create CategorySelector component in src/components/CategorySelector/index.tsx with icon, color display, and type filtering
-- [ ] T043 [P] [US1] Create TransactionList component in src/components/TransactionList/index.tsx with virtualization for performance, visual distinction (green/red), CNY formatting
-- [ ] T044 [US1] Create add-transaction page in src/pages/add-transaction/index.tsx with form (amount input, type selector, category selector, date picker, note textarea)
-- [ ] T045 [US1] Add form validation to add-transaction page: amount > 0, max 2 decimals, date within allowed range, category required
-- [ ] T046 [US1] Add error handling and success toast to add-transaction page
-- [ ] T047 [US1] Create transactions list page in src/pages/transactions/index.tsx displaying TransactionList component with pull-to-refresh
-- [ ] T048 [US1] Add edit transaction functionality: navigate to add-transaction page with pre-filled data, update on save
-- [ ] T049 [US1] Add delete transaction functionality with confirmation dialog
-- [ ] T050 [US1] Add filter controls to transactions page (type, category, date range)
+- [x] T042 [P] [US1] Create CategorySelector component in src/components/CategorySelector/index.tsx with icon, color display, and type filtering
+- [x] T043 [P] [US1] Create TransactionList component in src/components/TransactionList/index.tsx with virtualization for performance, visual distinction (green/red), CNY formatting
+- [x] T044 [US1] Create add-transaction page in src/pages/add-transaction/index.tsx with form (amount input, type selector, category selector, date picker, note textarea)
+- [x] T045 [US1] Add form validation to add-transaction page: amount > 0, max 2 decimals, date within allowed range, category required
+- [x] T046 [US1] Add error handling and success toast to add-transaction page
+- [x] T047 [US1] Create transactions list page in src/pages/transactions/index.tsx displaying TransactionList component with pull-to-refresh
+- [x] T048 [US1] Add edit transaction functionality: navigate to add-transaction page with pre-filled data, update on save
+- [x] T049 [US1] Add delete transaction functionality with confirmation dialog
+- [x] T050 [US1] Add filter controls to transactions page (type, category, date range)
 
 #### Integration & Testing
 
-- [ ] T051 [US1] Integrate TransactionService with Zustand store actions
-- [ ] T052 [US1] Integrate CategoryService with Zustand store, initialize defaults on first app launch
+- [x] T051 [US1] Integrate TransactionService with Zustand store actions
+- [x] T052 [US1] Integrate CategoryService with Zustand store, initialize defaults on first app launch
 - [ ] T053 [US1] Write component test for CategorySelector in __tests__/components/CategorySelector.test.tsx
 - [ ] T054 [US1] Write component test for TransactionList in __tests__/components/TransactionList.test.tsx
 - [ ] T055 [US1] Write component test for add-transaction page in __tests__/components/AddTransaction.test.tsx (validation, submission)

@@ -1,7 +1,95 @@
 .index {
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: 40px 20px;
+
+  &.loading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-size: 16px;
+  }
+
+  .balance-section {
+    text-align: center;
+    padding: 60px 20px 40px;
+    color: #fff;
+
+    .balance-label {
+      font-size: 14px;
+      opacity: 0.9;
+      display: block;
+      margin-bottom: 12px;
+    }
+
+    .balance-value {
+      font-size: 48px;
+      font-weight: 700;
+      display: block;
+      margin-bottom: 8px;
+
+      &.negative {
+        color: #fca5a5;
+      }
+    }
+
+    .balance-subtitle {
+      font-size: 12px;
+      opacity: 0.8;
+      display: block;
+    }
+  }
+
+  .quick-actions {
+    display: flex;
+    gap: 12px;
+    padding: 0 20px;
+    margin-bottom: 40px;
+
+    .action-button {
+      flex: 1;
+      padding: 16px;
+      border-radius: 12px;
+      font-size: 16px;
+      font-weight: 600;
+      border: none;
+
+      &.primary {
+        background: #fff;
+        color: #667eea;
+      }
+
+      &.secondary {
+        background: rgba(255, 255, 255, 0.2);
+        color: #fff;
+        border: 1px solid rgba(255, 255, 255, 0.3);
+      }
+
+      &:active {
+        opacity: 0.8;
+      }
+    }
+  }
+
+  .welcome-section {
+    text-align: center;
+    padding: 40px 20px;
+    color: #fff;
+
+    .welcome-title {
+      font-size: 20px;
+      font-weight: 600;
+      display: block;
+      margin-bottom: 12px;
+      opacity: 0.9;
+    }
+
+    .welcome-text {
+      font-size: 14px;
+      opacity: 0.8;
+      display: block;
+      line-height: 1.6;
+    }
+  }
 }

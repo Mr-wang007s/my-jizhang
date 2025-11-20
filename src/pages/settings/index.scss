@@ -1,0 +1,20 @@
+.settings-page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: #f5f5f5;
+  padding: 40px;
+
+  .coming-soon {
+    font-size: 18px;
+    color: #333;
+    margin-bottom: 12px;
+  }
+
+  .description {
+    font-size: 14px;
+    color: #999;
+  }
+}
