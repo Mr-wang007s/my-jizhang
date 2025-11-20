@@ -1,0 +1,12 @@
+# Tab bar icons needed:
+# - home.png (40x40 px) - 首页图标
+# - home-active.png - 首页激活图标  
+# - list.png - 账单图标
+# - list-active.png - 账单激活图标
+# - chart.png - 趋势图标
+# - chart-active.png - 趋势激活图标
+# - settings.png - 设置图标
+# - settings-active.png - 设置激活图标
+
+# Note: Icons should be 81x81 pixels for best quality on WeChat mini-program
+# These can be created using design tools or downloaded from icon libraries

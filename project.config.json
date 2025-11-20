@@ -1,8 +1,9 @@
 {
   "miniprogramRoot": "./dist",
-  "projectname": "bbb",
-  "description": "asd",
+  "projectname": "my-jizhang",
+  "description": "Personal Accounting Mini-Program",
   "appid": "touristappid",
+  "cloudfunctionRoot": "cloud/",
   "setting": {
     "urlCheck": true,
     "es6": false,
@@ -11,5 +12,6 @@
     "postcss": false,
     "minified": false
   },
-  "compileType": "miniprogram"
+  "compileType": "miniprogram",
+  "condition": {}
 }

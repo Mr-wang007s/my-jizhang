@@ -27,19 +27,19 @@ Taro mini-program project structure:
 
 **Purpose**: Project initialization and basic structure aligned with constitution principles
 
-- [ ] T001 Initialize Taro 4.x project with TypeScript and React template
-- [ ] T002 [P] Install core dependencies: zustand, dayjs, tailwindcss, postcss, autoprefixer
-- [ ] T003 [P] Install dev dependencies: jest, @testing-library/react, @testing-library/jest-dom, @tarojs/test-utils-react, ts-jest, @types/jest
-- [ ] T004 [P] Configure TailwindCSS in tailwind.config.js with custom colors (income: #34D399, expense: #EF4444, primary: #3B82F6)
-- [ ] T005 [P] Configure Taro build in config/index.ts with mini-program optimizations and TailwindCSS integration
-- [ ] T006 [P] Configure Jest in jest.config.js with ts-jest, jsdom environment, and module name mapping
-- [ ] T007 [P] Create Taro API mocks in __mocks__/taro.ts for testing (storage, cloud, navigation)
-- [ ] T008 [P] Setup project structure: create directories src/components, src/pages, src/services, src/store, src/utils, src/types, src/assets/icons, __tests__/services, __tests__/utils, __tests__/components
-- [ ] T009 Create global styles in src/app.scss with Tailwind imports
-- [ ] T010 [P] Configure WeChat mini-program project in project.config.json with environment ID placeholder
-- [ ] T011 [P] Create TypeScript configuration in tsconfig.json with strict mode enabled
-- [ ] T012 [P] Setup ESLint and Prettier configurations for code quality
-- [ ] T013 Add npm scripts to package.json: dev:weapp, build:weapp, dev:h5, build:h5, test, test:watch, test:coverage, lint
+- [X] T001 Initialize Taro 4.x project with TypeScript and React template
+- [X] T002 [P] Install core dependencies: zustand, dayjs, tailwindcss, postcss, autoprefixer
+- [X] T003 [P] Install dev dependencies: jest, @testing-library/react, @testing-library/jest-dom, @tarojs/test-utils-react, ts-jest, @types/jest
+- [X] T004 [P] Configure TailwindCSS in tailwind.config.js with custom colors (income: #34D399, expense: #EF4444, primary: #3B82F6)
+- [X] T005 [P] Configure Taro build in config/index.ts with mini-program optimizations and TailwindCSS integration
+- [X] T006 [P] Configure Jest in jest.config.js with ts-jest, jsdom environment, and module name mapping
+- [X] T007 [P] Create Taro API mocks in __mocks__/taro.ts for testing (storage, cloud, navigation)
+- [X] T008 [P] Setup project structure: create directories src/components, src/pages, src/services, src/store, src/utils, src/types, src/assets/icons, __tests__/services, __tests__/utils, __tests__/components
+- [X] T009 Create global styles in src/app.scss with Tailwind imports
+- [X] T010 [P] Configure WeChat mini-program project in project.config.json with environment ID placeholder
+- [X] T011 [P] Create TypeScript configuration in tsconfig.json with strict mode enabled
+- [X] T012 [P] Setup ESLint and Prettier configurations for code quality
+- [X] T013 Add npm scripts to package.json: dev:weapp, build:weapp, dev:h5, build:h5, test, test:watch, test:coverage, lint
 
 ---
 
@@ -49,20 +49,20 @@ Taro mini-program project structure:
 
 **⚠️ CRITICAL**: No user story work can begin until this phase is complete
 
-- [ ] T014 Define TypeScript types in src/types/index.ts: Transaction, Category, CreateTransactionInput, UpdateTransactionInput, CreateCategoryInput, UpdateCategoryInput, MonthlyBalance, CategoryBreakdown, TimeSeries
-- [ ] T015 [P] Create utility function for CNY currency formatting in src/utils/currency.ts using Intl.NumberFormat
-- [ ] T016 [P] Create date utility functions in src/utils/date.ts with dayjs wrappers for formatting, range calculations, month operations
-- [ ] T017 [P] Create validation utility functions in src/utils/validation.ts for amount, date, category validation
-- [ ] T018 [P] Write unit tests for currency formatting in __tests__/utils/currency.test.ts
-- [ ] T019 [P] Write unit tests for date utilities in __tests__/utils/date.test.ts
-- [ ] T020 [P] Write unit tests for validation utilities in __tests__/utils/validation.test.ts
-- [ ] T021 Initialize Zustand store in src/store/index.ts with persist middleware and Taro storage adapter
-- [ ] T022 Define store state interface: transactions, categories, balance, loading
-- [ ] T023 Define store actions: setTransactions, addTransaction, updateTransaction, deleteTransaction, setCategories, setLoading
-- [ ] T024 Configure app entry point in src/app.ts with WeChat Cloud initialization (conditional on TARO_ENV)
-- [ ] T025 Configure app pages and tab bar in src/app.config.ts: pages (index, transactions, add-transaction, trends, settings), tabBar with 4 tabs
-- [ ] T026 Create placeholder tab bar icons in src/assets/icons/ (home, list, chart, settings - both normal and active states)
-- [ ] T027 Create storage adapter abstraction for platform independence (WeChat Cloud DB vs local storage)
+- [X] T014 Define TypeScript types in src/types/index.ts: Transaction, Category, CreateTransactionInput, UpdateTransactionInput, CreateCategoryInput, UpdateCategoryInput, MonthlyBalance, CategoryBreakdown, TimeSeries
+- [X] T015 [P] Create utility function for CNY currency formatting in src/utils/currency.ts using Intl.NumberFormat
+- [X] T016 [P] Create date utility functions in src/utils/date.ts with dayjs wrappers for formatting, range calculations, month operations
+- [X] T017 [P] Create validation utility functions in src/utils/validation.ts for amount, date, category validation
+- [X] T018 [P] Write unit tests for currency formatting in __tests__/utils/currency.test.ts
+- [X] T019 [P] Write unit tests for date utilities in __tests__/utils/date.test.ts
+- [X] T020 [P] Write unit tests for validation utilities in __tests__/utils/validation.test.ts
+- [X] T021 Initialize Zustand store in src/store/index.ts with persist middleware and Taro storage adapter
+- [X] T022 Define store state interface: transactions, categories, balance, loading
+- [X] T023 Define store actions: setTransactions, addTransaction, updateTransaction, deleteTransaction, setCategories, setLoading
+- [X] T024 Configure app entry point in src/app.ts with WeChat Cloud initialization (conditional on TARO_ENV)
+- [X] T025 Configure app pages and tab bar in src/app.config.ts: pages (index, transactions, add-transaction, trends, settings), tabBar with 4 tabs
+- [X] T026 Create placeholder tab bar icons in src/assets/icons/ (home, list, chart, settings - both normal and active states)
+- [X] T027 Create storage adapter abstraction for platform independence (WeChat Cloud DB vs local storage)
 
 **Checkpoint**: Foundation ready - user story implementation can now begin in parallel
 
@@ -78,25 +78,25 @@ Taro mini-program project structure:
 
 > Write these tests FIRST, ensure they FAIL before implementation.
 
-- [ ] T028 [P] [US1] Write integration test for TransactionService.create in __tests__/services/transaction.service.test.ts
-- [ ] T029 [P] [US1] Write integration test for TransactionService.list with pagination in __tests__/services/transaction.service.test.ts
-- [ ] T030 [P] [US1] Write integration test for TransactionService.update in __tests__/services/transaction.service.test.ts
-- [ ] T031 [P] [US1] Write integration test for TransactionService.delete in __tests__/services/transaction.service.test.ts
-- [ ] T032 [P] [US1] Write integration test for CategoryService.initializeDefaults in __tests__/services/category.service.test.ts
-- [ ] T033 [P] [US1] Write integration test for CategoryService.list in __tests__/services/category.service.test.ts
+- [X] T028 [P] [US1] Write integration test for TransactionService.create in __tests__/services/transaction.service.test.ts
+- [X] T029 [P] [US1] Write integration test for TransactionService.list with pagination in __tests__/services/transaction.service.test.ts
+- [X] T030 [P] [US1] Write integration test for TransactionService.update in __tests__/services/transaction.service.test.ts
+- [X] T031 [P] [US1] Write integration test for TransactionService.delete in __tests__/services/transaction.service.test.ts
+- [X] T032 [P] [US1] Write integration test for CategoryService.initializeDefaults in __tests__/services/category.service.test.ts
+- [X] T033 [P] [US1] Write integration test for CategoryService.list in __tests__/services/category.service.test.ts
 
 ### Implementation for User Story 1
 
 #### Services Layer
 
-- [ ] T034 [P] [US1] Implement CategoryService.initializeDefaults in src/services/category.service.ts with 12 default categories (工资, 奖金, 投资收益, 餐饮, 交通, 购物, 水电费, 娱乐, 医疗, 教育, 住房, 其他)
-- [ ] T035 [P] [US1] Implement CategoryService.list in src/services/category.service.ts with type filtering and ordering
-- [ ] T036 [P] [US1] Implement CategoryService.getById in src/services/category.service.ts
-- [ ] T037 [US1] Implement TransactionService.create in src/services/transaction.service.ts with validation (positive amount, valid date range, category exists, 2 decimal places)
-- [ ] T038 [US1] Implement TransactionService.list in src/services/transaction.service.ts with filters (type, categoryId, date range), sorting, pagination
-- [ ] T039 [US1] Implement TransactionService.update in src/services/transaction.service.ts with validation
-- [ ] T040 [US1] Implement TransactionService.delete in src/services/transaction.service.ts
-- [ ] T041 [US1] Implement TransactionService.getById in src/services/transaction.service.ts
+- [X] T034 [P] [US1] Implement CategoryService.initializeDefaults in src/services/category.service.ts with 12 default categories (工资, 奖金, 投资收益, 餐饮, 交通, 购物, 水电费, 娱乐, 医疗, 教育, 住房, 其他)
+- [X] T035 [P] [US1] Implement CategoryService.list in src/services/category.service.ts with type filtering and ordering
+- [X] T036 [P] [US1] Implement CategoryService.getById in src/services/category.service.ts
+- [X] T037 [US1] Implement TransactionService.create in src/services/transaction.service.ts with validation (positive amount, valid date range, category exists, 2 decimal places)
+- [X] T038 [US1] Implement TransactionService.list in src/services/transaction.service.ts with filters (type, categoryId, date range), sorting, pagination
+- [X] T039 [US1] Implement TransactionService.update in src/services/transaction.service.ts with validation
+- [X] T040 [US1] Implement TransactionService.delete in src/services/transaction.service.ts
+- [X] T041 [US1] Implement TransactionService.getById in src/services/transaction.service.ts
 
 #### UI Components
 
