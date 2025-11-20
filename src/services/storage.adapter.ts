@@ -62,12 +62,20 @@ export class WeAppCloudAdapter implements StorageAdapter {
  */
 export class LocalStorageAdapter implements StorageAdapter {
   private getCollectionData<T>(collection: string): T[] {
-    const data = Taro.getStorageSync(collection);
-    return data ? JSON.parse(data) : [];
+    try {
+      const data = Taro.getStorageSync(collection);
+      return data && Array.isArray(data) ? data : [];
+    } catch (e) {
+      return [];
+    }
   }
 
   private setCollectionData<T>(collection: string, data: T[]): void {
-    Taro.setStorageSync(collection, JSON.stringify(data));
+    try {
+      Taro.setStorageSync(collection, data);
+    } catch (e) {
+      console.error('Failed to set storage:', e);
+    }
   }
 
   async get<T = any>(collection: string, query?: any): Promise<T[]> {
@@ -90,7 +98,7 @@ export class LocalStorageAdapter implements StorageAdapter {
   }
 
   async create<T = any>(collection: string, data: any): Promise<T> {
-    const collection Data = this.getCollectionData(collection);
+    const collectionData = this.getCollectionData(collection);
     const newItem = {
       ...data,
       _id: `${collection}_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
@@ -108,7 +116,7 @@ export class LocalStorageAdapter implements StorageAdapter {
       throw new Error(`Item with id ${id} not found`);
     }
 
-    collectionData[index] = { ...collectionData[index], ...data };
+    collectionData[index] = { ...(collectionData[index] as any), ...data };
     this.setCollectionData(collection, collectionData);
     return collectionData[index] as T;
   }

@@ -78,25 +78,25 @@ Taro mini-program project structure:
 
 > Write these tests FIRST, ensure they FAIL before implementation.
 
-- [ ] T028 [P] [US1] Write integration test for TransactionService.create in __tests__/services/transaction.service.test.ts
-- [ ] T029 [P] [US1] Write integration test for TransactionService.list with pagination in __tests__/services/transaction.service.test.ts
-- [ ] T030 [P] [US1] Write integration test for TransactionService.update in __tests__/services/transaction.service.test.ts
-- [ ] T031 [P] [US1] Write integration test for TransactionService.delete in __tests__/services/transaction.service.test.ts
-- [ ] T032 [P] [US1] Write integration test for CategoryService.initializeDefaults in __tests__/services/category.service.test.ts
-- [ ] T033 [P] [US1] Write integration test for CategoryService.list in __tests__/services/category.service.test.ts
+- [x] T028 [P] [US1] Write integration test for TransactionService.create in __tests__/services/transaction.service.test.ts
+- [x] T029 [P] [US1] Write integration test for TransactionService.list with pagination in __tests__/services/transaction.service.test.ts
+- [x] T030 [P] [US1] Write integration test for TransactionService.update in __tests__/services/transaction.service.test.ts
+- [x] T031 [P] [US1] Write integration test for TransactionService.delete in __tests__/services/transaction.service.test.ts
+- [x] T032 [P] [US1] Write integration test for CategoryService.initializeDefaults in __tests__/services/category.service.test.ts
+- [x] T033 [P] [US1] Write integration test for CategoryService.list in __tests__/services/category.service.test.ts
 
 ### Implementation for User Story 1
 
 #### Services Layer
 
-- [ ] T034 [P] [US1] Implement CategoryService.initializeDefaults in src/services/category.service.ts with 12 default categories (工资, 奖金, 投资收益, 餐饮, 交通, 购物, 水电费, 娱乐, 医疗, 教育, 住房, 其他)
-- [ ] T035 [P] [US1] Implement CategoryService.list in src/services/category.service.ts with type filtering and ordering
-- [ ] T036 [P] [US1] Implement CategoryService.getById in src/services/category.service.ts
-- [ ] T037 [US1] Implement TransactionService.create in src/services/transaction.service.ts with validation (positive amount, valid date range, category exists, 2 decimal places)
-- [ ] T038 [US1] Implement TransactionService.list in src/services/transaction.service.ts with filters (type, categoryId, date range), sorting, pagination
-- [ ] T039 [US1] Implement TransactionService.update in src/services/transaction.service.ts with validation
-- [ ] T040 [US1] Implement TransactionService.delete in src/services/transaction.service.ts
-- [ ] T041 [US1] Implement TransactionService.getById in src/services/transaction.service.ts
+- [x] T034 [P] [US1] Implement CategoryService.initializeDefaults in src/services/category.service.ts with 12 default categories (工资, 奖金, 投资收益, 餐饮, 交通, 购物, 水电费, 娱乐, 医疗, 教育, 住房, 其他)
+- [x] T035 [P] [US1] Implement CategoryService.list in src/services/category.service.ts with type filtering and ordering
+- [x] T036 [P] [US1] Implement CategoryService.getById in src/services/category.service.ts
+- [x] T037 [US1] Implement TransactionService.create in src/services/transaction.service.ts with validation (positive amount, valid date range, category exists, 2 decimal places)
+- [x] T038 [US1] Implement TransactionService.list in src/services/transaction.service.ts with filters (type, categoryId, date range), sorting, pagination
+- [x] T039 [US1] Implement TransactionService.update in src/services/transaction.service.ts with validation
+- [x] T040 [US1] Implement TransactionService.delete in src/services/transaction.service.ts
+- [x] T041 [US1] Implement TransactionService.getById in src/services/transaction.service.ts
 
 #### UI Components
 
